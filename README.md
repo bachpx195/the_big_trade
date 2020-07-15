@@ -34,3 +34,7 @@ A package for machine learning and related tasks
 * SciPy
 
 A collection of scientific classes and functions (installed as a dependency)
+
+* Jupyter Notebook
+
+Editor for python
