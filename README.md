@@ -38,3 +38,18 @@ A collection of scientific classes and functions (installed as a dependency)
 * Jupyter Notebook
 
 Editor for python
+
+## Chap3: Data Types and Structures
+
+| Object type | Meaning | Used for |
+| --- | ----------- | ----------- | 
+| int | Integer value | Natural numbers |
+| float | Floating-point number | Natural numbers |
+| bool | Boolean value | Something true or false |
+| str | String object | Character, word, text |
+| tuple | Immutable container | Fixed set of objects, record |
+| list | Mutable container | Changing set of objects |
+| dict | Mutable container | Natural numbers |
+| int | Integer value | Key-value store |
+| set | Mutable container | Collection of unique objects |
+
