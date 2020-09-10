@@ -60,16 +60,16 @@ Editor for python
 | ndarray (regular) | n-dimensional array object | Large arrays of numerical data |
 | ndarray (record) | 2-dimensional array object | Tabular data organized in columns |
 
-“Arrays of Data”
+* “Arrays of Data”
 This section is about the handling of arrays of data with pure Python code.
 
-“Regular NumPy Arrays”
+* “Regular NumPy Arrays”
 This is the core section about the regular NumPy ndarray class, the workhorse in almost all data-intensive Python use cases involving numerical data.
 
-“Structured NumPy Arrays”
+* “Structured NumPy Arrays”
 This brief section introduces structured (or record) ndarray objects for the handling of tabular data with columns.
 
-“Vectorization of Code”
+* “Vectorization of Code”
 In this section, vectorization of code is discussed along with its benefits; the section also discusses the importance of memory layout in certain scenarios.
 
 ## Chap5: Data Analysis with pandas
@@ -81,13 +81,13 @@ This chapter is about pandas, a library for data analysis with a focus on tabula
 | DataFrame | 2-dimensional data object with index | Tabular data organized in columns |
 | Series | 1-dimensional data object with index | Single (time) series of data |
 
-“The DataFrame Class”
+* “The DataFrame Class”
 This section starts by exploring the basic characteristics and capabilities of the DataFrame class of pandas by using simple and small data sets; it then shows how to transform a NumPy ndarray object into a DataFrame object.
 
-“The Series Class”
+* “The Series Class”
 This rather brief section covers the Series class of pandas, which in a sense represents a special case of the DataFrame class with a single column of data only.
 
-“GroupBy Operations”
+* “GroupBy Operations”
 One of the strengths of the DataFrame class lies in grouping data according to a single or multiple ...
 
 ## Ref
