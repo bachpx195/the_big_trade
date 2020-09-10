@@ -92,6 +92,7 @@ One of the strengths of the DataFrame class lies in grouping data according to a
 
 * Ref: https://pythonprogramming.net/introduction-python3-pandas-data-analysis/
 * Data set: https://www.kaggle.com/
+* Courses: https://www.kaggle.com/learn/pandas
 
 ## Chap7: Data visuaization
 
