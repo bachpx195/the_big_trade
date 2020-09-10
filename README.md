@@ -90,6 +90,11 @@ This rather brief section covers the Series class of pandas, which in a sense re
 * “GroupBy Operations”
 One of the strengths of the DataFrame class lies in grouping data according to a single or multiple ...
 
+* Ref: https://pythonprogramming.net/introduction-python3-pandas-data-analysis/
+* Data set: https://www.kaggle.com/
+
+## Chap7: Data visuaization
+
 ## Ref
 
 youtube: https://www.youtube.com/watch?v=2BrpKpWwT2A&list=PLQVvvaa0QuDcOdF96TBtRtuQksErCEBYZ
