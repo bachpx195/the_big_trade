@@ -50,9 +50,15 @@ Editor for python
 | tuple | Immutable container | Fixed set of objects, record |
 | list | Mutable container | Changing set of objects |
 | dict | Mutable container | Natural numbers |
-| int | Integer value | Key-value store |
 | set | Mutable container | Collection of unique objects |
 
+
+##  Chap4: 
+
+| Object type | Meaning | Used for |
+| --- | ----------- | ----------- | 
+| ndarray (regular) | n-dimensional array object | Large arrays of numerical data |
+| ndarray (record) | 2-dimensional array object | Tabular data organized in columns |
 
 ## Ref
 
