@@ -53,3 +53,10 @@ Editor for python
 | int | Integer value | Key-value store |
 | set | Mutable container | Collection of unique objects |
 
+
+## Ref
+
+youtube: https://www.youtube.com/watch?v=2BrpKpWwT2A&list=PLQVvvaa0QuDcOdF96TBtRtuQksErCEBYZ
+
+web: https://pythonprogramming.net/
+
