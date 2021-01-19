@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/opt/anaconda3/bin/activate",
+    "python.pythonPath": "/home/bachpx/anaconda3/bin/activate",
     "jupyter.jupyterServerType": "local"
 }
