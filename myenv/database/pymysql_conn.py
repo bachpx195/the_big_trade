@@ -6,24 +6,18 @@ import json
 
 class DataBase:
     def __init__(self):
-        mysql_config = self._init_from_json("config/pymysql.json")
-        self.host = mysql_config["host"]
-        self.port = mysql_config["port"]
-        self.db = mysql_config["db"]
-        self.user = mysql_config["user"]
-        self.password = mysql_config["password"]
+        self.host = "localhost"
+        self.port = 3306
+        self.db = "DailyTradingJournal_development"
+        self.user = "root"
+        self.password = "quachtinh95"
         self.autocommit = True
-        self.charset = mysql_config["charset"]
+        self.charset = "utf8mb4"
 
         self.con = None
         self.cur = None
 
         self._connect()
-
-    def _init_from_json(self, path):
-        with open(path) as f:
-            mysql_config = json.load(f)
-        return mysql_config
 
     def _connect(self):
         if (self.con is not None) or (self.cur is not None):

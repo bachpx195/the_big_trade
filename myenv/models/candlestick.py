@@ -1,5 +1,5 @@
 import pandas as pd
-from database.pymysql_conn import DataBase
+from myenv.database.pymysql_conn import DataBase
 
 db = DataBase()
 SQL = "SELECT *  FROM DailyTradingJournal_development.candlesticks  ORDER BY candlesticks.date ASC;"
