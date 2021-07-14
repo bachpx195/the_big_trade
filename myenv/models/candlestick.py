@@ -11,9 +11,9 @@ class Candlestick:
 
     def to_df(self):
         db.cur.execute(SQL)
-        columns = ['date', 'open', 'high', 'close', 'low', 'volumn', 'atr14']
+        columns = ['date', 'open', 'high', 'close', 'low']
         datas = list(db.cur.fetchall())
-        data = [(da[8], da[3], da[4], da[5], da[6], da[11], da[7])
+        data = [(da[8], da[3], da[4], da[5], da[6])
                 for da in datas]
         df = pd.DataFrame(columns=columns, data=data)
         # df = df.set_index('date')
