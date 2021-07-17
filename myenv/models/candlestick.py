@@ -18,5 +18,5 @@ class Candlestick:
         data = [(da[8], da[3], da[4], da[5], da[6])
                 for da in datas]
         df = pd.DataFrame(columns=columns, data=data)
-        # df = df.set_index('date')
+        df.set_index('date', inplace=True)
         return df
