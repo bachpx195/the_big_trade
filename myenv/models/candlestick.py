@@ -2,16 +2,16 @@ import pandas as pd
 from myenv.database.pymysql_conn import DataBase
 
 db = DataBase()
-SQL = "SELECT *  FROM DailyTradingJournal_development.candlesticks  ORDER BY candlesticks.date ASC;"
 INTERVAL_HASH = {"day": 1, "week": 2}
 
 
 class Candlestick:
-    def __init__(self, interval="day"):
+    def __init__(self, merchandise_rate_id, interval="day"):
         self.interval = interval
+        self.merchandise_rate_id = merchandise_rate_id
 
     def to_df(self):
-        sql_query = f"SELECT *  FROM DailyTradingJournal_development.candlesticks WHERE candlesticks.time_type = {INTERVAL_HASH[self.interval]} ORDER BY candlesticks.date ASC;"
+        sql_query = f"SELECT *  FROM DailyTradingJournal_development.candlesticks WHERE candlesticks.time_type = {INTERVAL_HASH[self.interval]} AND candlesticks.merchandise_rate_id = {self.merchandise_rate_id} ORDER BY candlesticks.date ASC;"
         db.cur.execute(sql_query)
         columns = ['date', 'open', 'high', 'close', 'low']
         datas = list(db.cur.fetchall())
