@@ -24,5 +24,5 @@ class Candlestick:
         df['date'] = df['date'].dt.tz_localize(timezone.utc)
         my_timezone = pytz.timezone('Asia/Bangkok')
         df['date'] = df['date'].dt.tz_convert(my_timezone)
-        # df.set_index('date', inplace=True)
+        df.set_index('date', inplace=True)
         return df
