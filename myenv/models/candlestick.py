@@ -1,8 +1,11 @@
 import pandas as pd
+import pytz
+from datetime import timezone
 from myenv.database.pymysql_conn import DataBase
 
+
 db = DataBase()
-INTERVAL_HASH = {"day": 1, "week": 2}
+INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4}
 
 
 class Candlestick:
@@ -18,5 +21,8 @@ class Candlestick:
         data = [(da[8], da[3], da[4], da[5], da[6])
                 for da in datas]
         df = pd.DataFrame(columns=columns, data=data)
-        df.set_index('date', inplace=True)
+        df['date'] = df['date'].dt.tz_localize(timezone.utc)
+        my_timezone = pytz.timezone('Asia/Bangkok')
+        df['date'] = df['date'].dt.tz_convert(my_timezone)
+        # df.set_index('date', inplace=True)
         return df
