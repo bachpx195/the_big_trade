@@ -9,13 +9,14 @@ INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4}
 
 
 class Candlestick:
-    def __init__(self, merchandise_rate_id, interval="day", limit=None):
+    def __init__(self, merchandise_rate_id, interval="day", limit=None, sort="ASC"):
         self.limit = limit
         self.interval = interval
         self.merchandise_rate_id = merchandise_rate_id
+        self.sort = sort
 
     def to_df(self):
-        sql_query = f"SELECT *  FROM DailyTradingJournal_development.candlesticks WHERE candlesticks.time_type = {INTERVAL_HASH[self.interval]} AND candlesticks.merchandise_rate_id = {self.merchandise_rate_id} ORDER BY candlesticks.date ASC lIMIT {self.limit};"
+        sql_query = f"SELECT *  FROM DailyTradingJournal_development.candlesticks WHERE candlesticks.time_type = {INTERVAL_HASH[self.interval]} AND candlesticks.merchandise_rate_id = {self.merchandise_rate_id} ORDER BY candlesticks.date {self.sort} lIMIT {self.limit};"
         db.cur.execute(sql_query)
         columns = ['date', 'open', 'high', 'close', 'low']
         datas = list(db.cur.fetchall())
