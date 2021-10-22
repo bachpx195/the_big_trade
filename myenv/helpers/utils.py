@@ -1,3 +1,11 @@
+from .constants import OPEN_INDEX, CLOSE_INDEX
+
 # ((col2 - col1) / col1) * 100
+
+
 def percentage_change(df, col1_index, col2_index):
     return df.apply(lambda row: (row.iloc[col2_index]-row.iloc[col1_index])/row.iloc[col1_index]*100, axis=1)
+
+
+def candlestick_type(df):
+    return df.apply(lambda row: 'down' if row.iloc[OPEN_INDEX] > row.iloc[CLOSE_INDEX] else 'up', axis=1)

@@ -10,7 +10,7 @@ INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4}
 
 class Candlestick:
     def __init__(self, merchandise_rate_id, interval="day", limit=None, sort="ASC"):
-        self.limit = limit
+        self.limit = limit if limit else 100000
         self.interval = interval
         self.merchandise_rate_id = merchandise_rate_id
         self.sort = sort
