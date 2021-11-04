@@ -2,7 +2,6 @@ from .constants import OPEN_INDEX, CLOSE_INDEX
 
 # ((col2 - col1) / col1) * 100
 
-
 def percentage_change(df, col1_index, col2_index):
     return df.apply(lambda row: (row.iloc[col2_index]-row.iloc[col1_index])/row.iloc[col1_index]*100, axis=1)
 
@@ -21,12 +20,3 @@ def count_continuous(df, row, sort_type='DESC'):
             break
         count = count + 1
     return count if count == 0 else count + 1
-
-
-# def count_continuous_asc(df, row):
-#     count = 0
-#     while True:
-#         if df.shift(count - 1).loc[row.name].type != row.type:
-#             break
-#         count = count - 1
-#     return count if count == 0 else count + 1
