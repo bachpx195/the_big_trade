@@ -5,9 +5,11 @@ from .constants import OPEN_INDEX, CLOSE_INDEX
 def percentage_change(df, col1_index, col2_index):
     return df.apply(lambda row: (row.iloc[col2_index]-row.iloc[col1_index])/row.iloc[col1_index]*100, axis=1)
 
-
 def candlestick_type(df):
     return df.apply(lambda row: 'down' if row.iloc[OPEN_INDEX] > row.iloc[CLOSE_INDEX] else 'up', axis=1)
+
+def candlestick_type_by_hour(df, hour):
+    return df.apply(lambda row: calc_candlestick_type_by_hour(row, df, hour), axis=1)
 
 def type_continuous(df, sort_type='DESC'):
     return df.apply(lambda row: count_continuous(df, row, sort_type), axis=1)
@@ -20,3 +22,31 @@ def count_continuous(df, row, sort_type='DESC'):
             break
         count = count + 1
     return count if count == 0 else count + 1
+
+def until_now_type(df):
+    return df.apply(lambda row: calc_until_now_type(row, df), axis=1)
+
+def calc_candlestick_type_by_hour(row, df, hour):
+    try:
+        return df[(df['day'] == row.day) & (df['hour'] == hour)].iloc[-1]['type']
+    except:
+        return ''
+
+
+def calc_until_now_type(row, df):
+    try:
+        return 'down' if df[(df['day'] == row.day) & (df['hour'] == 7)].iloc[-1]['open'] < row.iloc[OPEN_INDEX] else 'up'
+    except:
+        return ''
+    
+
+def phi_coefficient(df, col1, col2):
+    # https://en.wikipedia.org/wiki/Phi_coefficient
+
+    from sklearn.metrics import matthews_corrcoef
+
+    y_true = [x for x in df[col1].to_list() if x]
+    y_pred = [x for x in df[col2].to_list() if x]
+
+    return matthews_corrcoef(y_true, y_pred)
+

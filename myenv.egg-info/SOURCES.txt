@@ -5,8 +5,13 @@ myenv/main.py
 myenv.egg-info/PKG-INFO
 myenv.egg-info/SOURCES.txt
 myenv.egg-info/dependency_links.txt
+myenv.egg-info/requires.txt
 myenv.egg-info/top_level.txt
 myenv/database/__init__.py
 myenv/database/pymysql_conn.py
+myenv/helpers/__init__.py
+myenv/helpers/constants.py
+myenv/helpers/utils.py
 myenv/models/__init__.py
 myenv/models/candlestick.py
+myenv/models/merchandise_rate.py
