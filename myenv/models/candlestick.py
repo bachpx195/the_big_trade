@@ -20,7 +20,7 @@ class Candlestick:
     def to_df(self):
         sql_query = 'SELECT * FROM DailyTradingJournal_development.candlesticks WHERE '
         if self.start_date and self.end_date:
-            sql_query = sql_query + f"(date BETWEEN '{self.start_date} 00:00:00' AND '{self.end_date} 23:59:59') AND "
+            sql_query = sql_query + f"(date BETWEEN '{self.start_date} 17:00:00' AND '{self.end_date} 16:59:59') AND "
         if self.interval:
             sql_query = sql_query + f"candlesticks.time_type = {INTERVAL_HASH[self.interval]} AND "
         if self.merchandise_rate_id:
