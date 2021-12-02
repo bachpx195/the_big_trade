@@ -50,3 +50,12 @@ def phi_coefficient(df, col1, col2):
 
     return matthews_corrcoef(y_true, y_pred)
 
+def diff_days(start_date, end_date, format):
+    from datetime import datetime
+
+    a = datetime.strptime(start_date, format)
+    b = datetime.strptime(end_date, format)
+    delta = b - a
+
+    return delta.days
+
