@@ -59,3 +59,9 @@ def diff_days(start_date, end_date, format):
 
     return delta.days
 
+def unique_list(list):
+    list2 = []
+    for i in list:    
+        if not i in list2:  
+            list2.append(i)
+    return list2
