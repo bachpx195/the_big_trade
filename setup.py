@@ -8,6 +8,6 @@ setuptools.setup(
     python_requires='>=3.7',
     install_requires=[
         'pymysql',
-        'dash'
+        'pandasgui'
     ],
 )

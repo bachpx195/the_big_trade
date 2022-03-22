@@ -1,8 +1,13 @@
-# Python_For_Finance
+# The big trade
+
+## Install
+```shellscript
+pip install .
+```
 
 ## Chap2: Tool and Infrastructure
 
-- Môi trường ancoda
+- Ancoda
 
 Là nền tảng (platform) mã nguồn mở về Khoa học dữ liệu (Data Science) trên Python thông dụng nhất hiện nay
 
