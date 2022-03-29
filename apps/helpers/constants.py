@@ -3,4 +3,11 @@ HIGH_INDEX = 1
 CLOSE_INDEX = 2
 LOW_INDEX = 3
 
-LIST_MERCHANDISE_RATE = ('BTC/USDT', 'LTC/USDT')
+LIST_MERCHANDISE_RATE = ('BTCUSDT', 'LTCUSDT')
+
+LIST_INTERVAL = {
+    'day': 'Ngày',
+    'week': 'Tuần',
+    'month': 'Tháng',
+    'hour': 'Giờ'
+}
