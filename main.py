@@ -10,7 +10,7 @@ st.set_page_config(page_title='Secure Hydralit Data Explorer',page_icon="🐙",l
 if __name__ == '__main__':
 
   #---ONLY HERE TO SHOW OPTIONS WITH HYDRALIT - NOT REQUIRED, use Hydralit constructor parameters.
-  st.write('Some options to change the way our Hydralit application looks and feels')
+  st.write('Viết gì đó...')
   c1,c2,c3,c4,_ = st.columns([2,2,2,2,8])
   hydralit_navbar = c1.checkbox('Use Hydralit Navbar',True)
   sticky_navbar = c2.checkbox('Use Sticky Navbar',False)

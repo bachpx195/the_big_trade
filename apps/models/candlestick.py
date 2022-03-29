@@ -1,7 +1,7 @@
 import pandas as pd
 import pytz
 from datetime import timezone
-from myenv.database.pymysql_conn import DataBase
+from configs.database.pymysql_conn import DataBase
 
 
 db = DataBase()
