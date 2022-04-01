@@ -19,7 +19,7 @@ class TrueRangeApp(HydraHeadApp):
     merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
     candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, start_date=start_date, end_date=end_date)
     prices = candlestick.to_df()
-    prices['day return'] = prices['close'].pct_change() * 100
+    prices['return'] = prices['close'].pct_change() * 100
     return prices
 
   #This one method that must be implemented in order to be used in a Hydralit application.
@@ -58,4 +58,6 @@ class TrueRangeApp(HydraHeadApp):
 
     prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
 
-    st.bar_chart(prices['day return'])
+    st.bar_chart(prices['return'])
+
+    st.line_chart(prices['return'].apply(lambda x: abs(x)))
