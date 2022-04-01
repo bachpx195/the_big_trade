@@ -10,7 +10,9 @@ st.set_page_config(page_title='Secure Hydralit Data Explorer',page_icon="🐙",l
 
 if __name__ == '__main__':
   if st.button('Cập nhật data'):
-     update_data()
+    is_updated = update_data()
+    if is_updated:
+      st.write("Cập nhật thành công")
 
 
   #---ONLY HERE TO SHOW OPTIONS WITH HYDRALIT - NOT REQUIRED, use Hydralit constructor parameters.
