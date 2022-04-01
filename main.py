@@ -2,32 +2,36 @@ import streamlit as st
 from hydralit import HydraApp
 import hydralit_components as hc
 import apps
+from apps.services.update_data import update_data
 
 
 #Only need to set these here as we are add controls outside of Hydralit, to customise a run Hydralit!
 st.set_page_config(page_title='Secure Hydralit Data Explorer',page_icon="🐙",layout='wide',initial_sidebar_state='auto',)
 
 if __name__ == '__main__':
+  if st.button('Cập nhật data'):
+     update_data()
+
 
   #---ONLY HERE TO SHOW OPTIONS WITH HYDRALIT - NOT REQUIRED, use Hydralit constructor parameters.
-  st.write('Viết gì đó...')
-  c1,c2,c3,c4,_ = st.columns([2,2,2,2,8])
-  hydralit_navbar = c1.checkbox('Use Hydralit Navbar',True)
-  sticky_navbar = c2.checkbox('Use Sticky Navbar',False)
-  animate_navbar = c3.checkbox('Use Animated Navbar',True)
-  hide_st = c4.checkbox('Hide Streamlit Markers',True)
+  # st.write('Viết gì đó...')
+  # c1,c2,c3,c4,_ = st.columns([2,2,2,2,8])
+  # hydralit_navbar = c1.checkbox('Use Hydralit Navbar',True)
+  # sticky_navbar = c2.checkbox('Use Sticky Navbar',False)
+  # animate_navbar = c3.checkbox('Use Animated Navbar',True)
+  # hide_st = c4.checkbox('Hide Streamlit Markers',True)
 
   over_theme = {'txc_inactive': '#FFFFFF'}
   #this is the host application, we add children to it and that's it!
   app = HydraApp(
       title='Secure Hydralit Data Explorer',
       favicon="🐙",
-      hide_streamlit_markers=hide_st,
+      hide_streamlit_markers=True,
       #add a nice banner, this banner has been defined as 5 sections with spacing defined by the banner_spacing array below.
       banner_spacing=[5,30,60,30,5],
-      use_navbar=hydralit_navbar,
-      navbar_sticky=sticky_navbar,
-      navbar_animation=animate_navbar,
+      use_navbar=True,
+      navbar_sticky=True,
+      navbar_animation=True,
       navbar_theme=over_theme
   )
 
