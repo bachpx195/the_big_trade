@@ -3,6 +3,7 @@ from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate
+from apps.services.update_data import update_data
 
 class DataApp(HydraHeadApp):
 
@@ -35,6 +36,12 @@ class DataApp(HydraHeadApp):
         if v == interval_tuple:
           interval = k
 
+    if st.button('Cập nhật dữ liệu'):
+      is_updated = update_data()
+      if is_updated:
+        st.write("Cập nhật thành công")
+
+
     c1, c2 = st.columns([4, 1])
     with c1:
       record_limit = st.number_input('Nhập số lượng', value=50)
@@ -57,4 +64,4 @@ class DataApp(HydraHeadApp):
       else:
         end_date = None
 
-    prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
+    # prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)

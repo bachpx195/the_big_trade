@@ -2,19 +2,11 @@ import streamlit as st
 from hydralit import HydraApp
 import hydralit_components as hc
 import apps
-from apps.services.update_data import update_data
-
 
 #Only need to set these here as we are add controls outside of Hydralit, to customise a run Hydralit!
-st.set_page_config(page_title='Secure Hydralit Data Explorer',page_icon="🐙",layout='wide',initial_sidebar_state='auto',)
+st.set_page_config(page_title='The Big Trade',page_icon="🐙",layout='wide',initial_sidebar_state='auto',)
 
 if __name__ == '__main__':
-  if st.button('Cập nhật data'):
-    is_updated = update_data()
-    if is_updated:
-      st.write("Cập nhật thành công")
-
-
   #---ONLY HERE TO SHOW OPTIONS WITH HYDRALIT - NOT REQUIRED, use Hydralit constructor parameters.
   # st.write('Viết gì đó...')
   # c1,c2,c3,c4,_ = st.columns([2,2,2,2,8])
@@ -26,7 +18,7 @@ if __name__ == '__main__':
   over_theme = {'txc_inactive': '#FFFFFF'}
   #this is the host application, we add children to it and that's it!
   app = HydraApp(
-      title='Secure Hydralit Data Explorer',
+      title='The Big Trade',
       favicon="🐙",
       hide_streamlit_markers=True,
       #add a nice banner, this banner has been defined as 5 sections with spacing defined by the banner_spacing array below.
