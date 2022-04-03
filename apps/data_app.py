@@ -1,9 +1,11 @@
+from numpy import True_
 import streamlit as st
 from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate
 from apps.services.update_data import update_data
+from apps.helpers.draw_chart import draw_candlestick
 
 class DataApp(HydraHeadApp):
 
@@ -64,4 +66,7 @@ class DataApp(HydraHeadApp):
       else:
         end_date = None
 
-    # prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
+    prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
+    draw_candlestick(prices)
+
+    st.plotly_chart(draw_candlestick(prices), use_container_width=True)

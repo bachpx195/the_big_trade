@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 
 def draw_candlestick(df):
   candlestick_data = go.Candlestick(
@@ -8,6 +9,8 @@ def draw_candlestick(df):
     low=df['low'].tolist(),
     close=df['close'].tolist()
   )
-  fig = go.Figure(data=[candlestick_data])
+
+  fig = go.Figure()
+  fig.add_trace(candlestick_data)
 
   return fig
