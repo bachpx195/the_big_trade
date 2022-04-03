@@ -39,7 +39,7 @@ class DataApp(HydraHeadApp):
           interval = k
 
     if st.button('Cập nhật dữ liệu'):
-      is_updated = update_data()
+      is_updated = update_data(merchandise_rate, interval)
       if is_updated:
         st.write("Cập nhật thành công")
 
