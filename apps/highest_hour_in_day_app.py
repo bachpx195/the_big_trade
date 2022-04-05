@@ -1,5 +1,6 @@
 import streamlit as st
-# import pandas_profiling
+import datetime
+import numpy as np
 from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE
 from apps.models.candlestick import Candlestick
@@ -14,6 +15,7 @@ class HighestHourInDayApp(HydraHeadApp):
     self.__dict__.update(kwargs)
     self.title = title
 
+  @st.experimental_memo
   def load_data(self, merchandise_rate_name, limit, start_date, end_date):
     merchandise_rate = MerchandiseRate()
     merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -43,6 +45,22 @@ class HighestHourInDayApp(HydraHeadApp):
   def run(self):
     st.write('HI, IM A DATA HOURS!')
 
+    @st.experimental_memo
+    def load_data(merchandise_rate_name, limit, start_date, end_date):
+      merchandise_rate = MerchandiseRate()
+      merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
+      candlestick = Candlestick(
+        merchandise_rate_id,
+        interval='hour',
+        limit=limit,
+        sort="DESC",
+        start_date=start_date,
+        end_date=end_date
+      )
+      prices = candlestick.to_df()
+      prices['return'] = prices['close'].pct_change() * 100
+      return prices
+
     c1, c2 = st.columns([2, 2])
     merchandise_rate = LIST_MERCHANDISE_RATE[0]
     with c1:
@@ -70,7 +88,12 @@ class HighestHourInDayApp(HydraHeadApp):
       else:
         end_date = None
 
-    prices = self.load_data(merchandise_rate, record_limit, start_date, end_date)
+    prices = load_data(merchandise_rate, record_limit, start_date, end_date)
     self.init_dataframe(prices)
 
     st.pyplot(draw_time_distribution(prices))
+
+    current_hour = datetime.datetime.now().hour
+
+    seleted_hour = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+
