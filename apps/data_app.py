@@ -16,7 +16,7 @@ class DataApp(HydraHeadApp):
   def load_data(self, merchandise_rate_name, interval, limit, start_date, end_date):
     merchandise_rate = MerchandiseRate()
     merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-    candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, start_date=start_date, end_date=end_date)
+    candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
     prices = candlestick.to_df()
     prices['return'] = prices['close'].pct_change() * 100
     return prices
