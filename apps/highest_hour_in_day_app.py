@@ -1,12 +1,12 @@
 import streamlit as st
 # import pandas_profiling
 from hydralit import HydraHeadApp
-from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
-from myenv.models.candlestick import Candlestick
-from myenv.models.merchandise_rate import MerchandiseRate
-from apps.services.update_data import update_data
-from apps.helpers.draw_chart import draw_candlestick
-# from streamlit_pandas_profiling import st_profile_report
+from apps.helpers.constants import LIST_MERCHANDISE_RATE
+from apps.models.candlestick import Candlestick
+from apps.models.merchandise_rate import MerchandiseRate
+from apps.helpers.constants import HIGH_INDEX, LOW_INDEX, OPEN_INDEX, CLOSE_INDEX
+from apps.helpers.utils import percentage_change, candlestick_type, type_continuous, until_now_type, candlestick_type_by_hour
+from apps.helpers.draw_chart import draw_candlestick, draw_time_distribution
 
 class HighestHourInDayApp(HydraHeadApp):
 
@@ -14,36 +14,39 @@ class HighestHourInDayApp(HydraHeadApp):
     self.__dict__.update(kwargs)
     self.title = title
 
-  def load_data(self, merchandise_rate_name, interval, limit, start_date, end_date):
+  def load_data(self, merchandise_rate_name, limit, start_date, end_date):
     merchandise_rate = MerchandiseRate()
     merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-    candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
+    candlestick = Candlestick(
+      merchandise_rate_id,
+      interval='hour',
+      limit=limit,
+      sort="DESC",
+      start_date=start_date,
+      end_date=end_date
+    )
     prices = candlestick.to_df()
     prices['return'] = prices['close'].pct_change() * 100
     return prices
 
+  def init_dataframe(self, df):
+    df['hour_return'] = percentage_change(df,OPEN_INDEX, CLOSE_INDEX)
+    df['day'] = df[['open']].apply(
+        lambda x: x.name.strftime("%Y-%m-%d"), axis=1)
+    df['hour'] = df[['open']].apply(
+        lambda x: x.name.hour, axis=1)
+    df['type'] = candlestick_type(df)
+
+
   #This one method that must be implemented in order to be used in a Hydralit application.
   #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
   def run(self):
-    st.write('HI, IM A DATA!')
+    st.write('HI, IM A DATA HOURS!')
 
     c1, c2 = st.columns([2, 2])
     merchandise_rate = LIST_MERCHANDISE_RATE[0]
     with c1:
       merchandise_rate = st.radio("Chọn loại tiền cần phân tích: ", LIST_MERCHANDISE_RATE)
-
-    interval = tuple(LIST_INTERVAL.values())[0]
-    with c2:
-      interval_tuple = st.radio("Chọn loại thời gian: ", tuple(LIST_INTERVAL.values()))
-      for k,v in LIST_INTERVAL.items():
-        if v == interval_tuple:
-          interval = k
-
-    if st.button('Cập nhật dữ liệu'):
-      is_updated = update_data(merchandise_rate, interval)
-      if is_updated:
-        st.write("Cập nhật thành công")
-
 
     c1, c2 = st.columns([4, 1])
     with c1:
@@ -67,10 +70,7 @@ class HighestHourInDayApp(HydraHeadApp):
       else:
         end_date = None
 
-    prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
-    draw_candlestick(prices)
+    prices = self.load_data(merchandise_rate, record_limit, start_date, end_date)
+    self.init_dataframe(prices)
 
-    # pr = prices.profile_report()
-    # st_profile_report(pr)
-
-    st.plotly_chart(draw_candlestick(prices), use_container_width=True)
+    st.pyplot(draw_time_distribution(prices))
