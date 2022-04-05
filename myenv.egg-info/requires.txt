@@ -1,3 +1,4 @@
 pymysql
-pandasgui
 streamlit
+streamlit-pandas-profiling
+hydralit

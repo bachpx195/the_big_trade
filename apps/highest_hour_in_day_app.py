@@ -8,7 +8,7 @@ from apps.services.update_data import update_data
 from apps.helpers.draw_chart import draw_candlestick
 # from streamlit_pandas_profiling import st_profile_report
 
-class DataApp(HydraHeadApp):
+class HighestHourInDayApp(HydraHeadApp):
 
   def __init__(self, title = 'Hydralit Explorer', **kwargs):
     self.__dict__.update(kwargs)
