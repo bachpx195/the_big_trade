@@ -1,0 +1,8 @@
+{
+    "host": "localhost",
+    "port": 3306,
+    "db": "DailyTradingJournal_development",
+    "user": "root",
+    "password": "quachtinh95",
+    "charset": "utf8mb4"
+}
