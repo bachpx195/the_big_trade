@@ -95,5 +95,6 @@ class HighestHourInDayApp(HydraHeadApp):
 
     current_hour = datetime.datetime.now().hour
 
-    seleted_hour = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+    hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
 
+    
