@@ -14,6 +14,10 @@ def add_hour_column(df):
   df['hour'] = df[['open']].apply(lambda x: x.name.hour, axis=1)
   return df
 
-def add_agv_oc(df):
+def add_average_oc_column(df):
   df['average_oc'] = df.apply(lambda row: (row.iloc[OPEN_INDEX]+row.iloc[CLOSE_INDEX])/2, axis=1)
+  return df
+
+def add_rolling_average_oc_column(df):
+  df['rolling_average_oc'] = df['average_oc'].rolling(2).mean()
   return df
