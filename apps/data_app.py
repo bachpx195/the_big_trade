@@ -68,6 +68,8 @@ class DataApp(HydraHeadApp):
         end_date = None
 
     prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
+    if st.button('hiển thị dataframe'):
+      st.write(prices)
     draw_candlestick(prices)
 
     # pr = prices.profile_report()

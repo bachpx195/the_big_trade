@@ -2,11 +2,10 @@ import streamlit as st
 import datetime
 import numpy as np
 from hydralit import HydraHeadApp
-from apps.helpers.constants import LIST_MERCHANDISE_RATE
+from apps.helpers.constants import LIST_MERCHANDISE_RATE, HOURS_IN_DAY
 from apps.models.candlestick import Candlestick
 from apps.models.merchandise_rate import MerchandiseRate
-from apps.helpers.constants import HIGH_INDEX, LOW_INDEX, OPEN_INDEX, CLOSE_INDEX
-from apps.helpers.utils import percentage_change, candlestick_type, type_continuous, until_now_type, candlestick_type_by_hour
+from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column
 from apps.helpers.draw_chart import draw_candlestick, draw_time_distribution
 
 class HighestHourInDayApp(HydraHeadApp):
@@ -15,30 +14,12 @@ class HighestHourInDayApp(HydraHeadApp):
     self.__dict__.update(kwargs)
     self.title = title
 
-  @st.experimental_memo
-  def load_data(self, merchandise_rate_name, limit, start_date, end_date):
-    merchandise_rate = MerchandiseRate()
-    merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-    candlestick = Candlestick(
-      merchandise_rate_id,
-      interval='hour',
-      limit=limit,
-      sort="DESC",
-      start_date=start_date,
-      end_date=end_date
-    )
-    prices = candlestick.to_df()
-    prices['return'] = prices['close'].pct_change() * 100
-    return prices
-
   def init_dataframe(self, df):
-    df['hour_return'] = percentage_change(df,OPEN_INDEX, CLOSE_INDEX)
-    df['day'] = df[['open']].apply(
-        lambda x: x.name.strftime("%Y-%m-%d"), axis=1)
-    df['hour'] = df[['open']].apply(
-        lambda x: x.name.hour, axis=1)
-    df['type'] = candlestick_type(df)
-
+    df = add_hour_column(df)
+    df = add_return_column(df)
+    df = add_day_column(df)
+    df = add_type_column(df)
+    return df
 
   #This one method that must be implemented in order to be used in a Hydralit application.
   #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
@@ -58,7 +39,7 @@ class HighestHourInDayApp(HydraHeadApp):
         end_date=end_date
       )
       prices = candlestick.to_df()
-      prices['return'] = prices['close'].pct_change() * 100
+      prices = self.init_dataframe(prices)
       return prices
 
     c1, c2 = st.columns([2, 2])
@@ -68,7 +49,7 @@ class HighestHourInDayApp(HydraHeadApp):
 
     c1, c2 = st.columns([4, 1])
     with c1:
-      record_limit = st.number_input('Nhập số lượng', value=50)
+      record_limit = st.number_input('Nhập số lượng', value=50*HOURS_IN_DAY)
     with c2:
       if st.checkbox("Tất cả"):
         record_limit = None
@@ -89,12 +70,14 @@ class HighestHourInDayApp(HydraHeadApp):
         end_date = None
 
     prices = load_data(merchandise_rate, record_limit, start_date, end_date)
-    self.init_dataframe(prices)
 
+    st.info(f"Thời gian quan sát {record_limit} ngày")
     st.pyplot(draw_time_distribution(prices))
 
     current_hour = datetime.datetime.now().hour
 
-    hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+    #radio hang ngang
+    st.write('<style>div.row-widget.stRadio > div{flex-direction:row;} </style>', unsafe_allow_html=True)
+    st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 
-    
+    hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)

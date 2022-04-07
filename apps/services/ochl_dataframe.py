@@ -21,3 +21,7 @@ def add_average_oc_column(df):
 def add_rolling_average_oc_column(df):
   df['rolling_average_oc'] = df['average_oc'].rolling(2).mean()
   return df
+
+def add_type_column(df):
+  df['type'] = candlestick_type(df)
+  return df

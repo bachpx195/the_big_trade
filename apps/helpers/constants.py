@@ -11,3 +11,5 @@ LIST_INTERVAL = {
     'month': 'Tháng',
     'hour': 'Giờ'
 }
+
+HOURS_IN_DAY = 24
