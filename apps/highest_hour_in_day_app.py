@@ -5,8 +5,8 @@ from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, HOURS_IN_DAY
 from apps.models.candlestick import Candlestick
 from apps.models.merchandise_rate import MerchandiseRate
-from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column
-from apps.helpers.draw_chart import draw_candlestick, draw_time_distribution
+from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column, add_type_continue_column
+from apps.helpers.draw_chart import draw_pie_chart, draw_time_distribution
 
 class HighestHourInDayApp(HydraHeadApp):
 
@@ -21,8 +21,34 @@ class HighestHourInDayApp(HydraHeadApp):
     df = add_type_column(df)
     return df
 
-  #This one method that must be implemented in order to be used in a Hydralit application.
-  #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
+  def analytics_hour(self, df, hour_observe):
+    st.info(f"Giờ quan sát: {hour_observe}")
+    prices_up = df[(df['hour'] == hour_observe) & (df['type'] == 'up')]
+    prices_down = df[(df['hour'] == hour_observe) & (df['type'] == 'down')]
+
+    st.info(f"Tỉ lệ nến xanh và đỏ là {len(prices_up.index)}/{len(prices_down.index)} ~ {round(len(prices_up.index)/len(prices_down.index), 2)}")
+
+    c1, c2 = st.columns([2, 2])
+    with c1:
+      st.write('Chi tiết nến xanh')
+      st.write(prices_up['hour_return'].describe())
+    with c2:
+      st.write('Chi tiết nến đỏ')
+      st.write(prices_down['hour_return'].describe())
+
+    st.write("Biểu đồ % hour return qua từng giờ: ")
+    st.bar_chart(df[df['hour'] == hour_observe]['hour_return'])
+
+    if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
+      df = add_type_continue_column(df)
+      type_continuous_group = df.groupby(['type_continuous']).size()
+
+      if st.button("Hiển thị dataframe tăng/giảm liên tục"):
+        st.write(type_continuous_group)
+
+      st.pyplot(draw_pie_chart(type_continuous_group))
+
+
   def run(self):
     st.write('HI, IM A DATA HOURS!')
 
@@ -47,10 +73,22 @@ class HighestHourInDayApp(HydraHeadApp):
     with c1:
       merchandise_rate = st.radio("Chọn loại tiền cần phân tích: ", LIST_MERCHANDISE_RATE)
 
-    c1, c2 = st.columns([4, 1])
+    c1, c2, c3, c4, c5 = st.columns([4, 1, 1, 1, 1])
     with c1:
       record_limit = st.number_input('Nhập số lượng', value=50*HOURS_IN_DAY)
     with c2:
+      if st.checkbox("1 Tuần"):
+        record_limit = None
+        record_limit = 7*HOURS_IN_DAY
+    with c3:
+      if st.checkbox("1 Tháng"):
+        record_limit = None
+        record_limit = 30*HOURS_IN_DAY
+    with c4:
+      if st.checkbox("3 Tháng"):
+        record_limit = None
+        record_limit = 100*HOURS_IN_DAY
+    with c5:
       if st.checkbox("Tất cả"):
         record_limit = None
 
@@ -71,7 +109,7 @@ class HighestHourInDayApp(HydraHeadApp):
 
     prices = load_data(merchandise_rate, record_limit, start_date, end_date)
 
-    st.info(f"Thời gian quan sát {record_limit} ngày")
+    st.info(f"Thời gian quan sát trong {int(record_limit or 0)/HOURS_IN_DAY} ngày")
     st.pyplot(draw_time_distribution(prices))
 
     current_hour = datetime.datetime.now().hour
@@ -81,3 +119,5 @@ class HighestHourInDayApp(HydraHeadApp):
     st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 
     hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+
+    self.analytics_hour(prices, hour_observe)

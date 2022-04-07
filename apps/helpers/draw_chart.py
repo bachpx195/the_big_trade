@@ -56,3 +56,15 @@ def draw_time_distribution(df):
   plt.tight_layout()
 
   return plt
+
+def draw_pie_chart(df):
+  labels = df.index.values
+  sizes = df.values
+
+  plt.figure()
+  fig1, ax1 = plt.subplots(figsize=(12, 7))
+  ax1.pie(sizes, labels=labels, autopct='%1.1f%%')
+  ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+  plt.legend()
+  return plt

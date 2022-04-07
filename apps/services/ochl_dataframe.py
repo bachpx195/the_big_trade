@@ -25,3 +25,7 @@ def add_rolling_average_oc_column(df):
 def add_type_column(df):
   df['type'] = candlestick_type(df)
   return df
+
+def add_type_continue_column(df):
+  df['type_continuous'] = type_continuous(df)
+  return df
