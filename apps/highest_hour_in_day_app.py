@@ -26,7 +26,7 @@ class HighestHourInDayApp(HydraHeadApp):
     prices_up = df[(df['hour'] == hour_observe) & (df['type'] == 'up')]
     prices_down = df[(df['hour'] == hour_observe) & (df['type'] == 'down')]
 
-    st.info(f"Tỉ lệ nến xanh và đỏ là {len(prices_up.index)}/{len(prices_down.index)} ~ {round(len(prices_up.index)/len(prices_down.index), 2)}")
+    st.info(f"Tỉ lệ nến xanh và đỏ là {len(prices_up.index)}/{len(prices_down.index)} ~ {round(len(prices_up.index)/len(prices_down.index), 2) if len(prices_down.index) != 0 else len(prices_up.index)}")
 
     c1, c2 = st.columns([2, 2])
     with c1:
@@ -43,8 +43,7 @@ class HighestHourInDayApp(HydraHeadApp):
       df = add_type_continue_column(df)
       type_continuous_group = df.groupby(['type_continuous']).size()
 
-      if st.button("Hiển thị dataframe tăng/giảm liên tục"):
-        st.write(type_continuous_group)
+      st.write(type_continuous_group)
 
       st.pyplot(draw_pie_chart(type_continuous_group))
 
@@ -111,6 +110,14 @@ class HighestHourInDayApp(HydraHeadApp):
 
     st.info(f"Thời gian quan sát trong {int(record_limit or 0)/HOURS_IN_DAY} ngày")
     st.pyplot(draw_time_distribution(prices))
+
+    if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
+      df = add_type_continue_column(df)
+      type_continuous_group = df.groupby(['type_continuous']).size()
+
+      st.write(type_continuous_group)
+
+      st.pyplot(draw_pie_chart(type_continuous_group))
 
     current_hour = datetime.datetime.now().hour
 

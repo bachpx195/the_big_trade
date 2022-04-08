@@ -19,3 +19,14 @@ def update_data(merchandise_rate, interval):
   poll = ps.poll()
   if poll is not None:
     return True
+
+def update_all_data(merchandise_rate):
+  print("update month")
+  is_updated_month = update_data(merchandise_rate, 'month')
+  print("update week")
+  is_updated_week = update_data(merchandise_rate, 'week')
+  print("update day")
+  is_updated_day = update_data(merchandise_rate, 'day')
+  print("update hour")
+  is_updated_hour = update_data(merchandise_rate, 'hour')
+  return is_updated_month and is_updated_week and is_updated_day and is_updated_hour

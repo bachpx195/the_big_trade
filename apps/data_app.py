@@ -4,7 +4,7 @@ from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate
-from apps.services.update_data import update_data
+from apps.services.update_data import update_all_data
 from apps.helpers.draw_chart import draw_candlestick
 # from streamlit_pandas_profiling import st_profile_report
 
@@ -40,7 +40,7 @@ class DataApp(HydraHeadApp):
           interval = k
 
     if st.button('Cập nhật dữ liệu'):
-      is_updated = update_data(merchandise_rate, interval)
+      is_updated = update_all_data(merchandise_rate)
       if is_updated:
         st.write("Cập nhật thành công")
 
