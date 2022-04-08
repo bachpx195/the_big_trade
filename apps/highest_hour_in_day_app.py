@@ -5,8 +5,8 @@ from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, HOURS_IN_DAY
 from apps.models.candlestick import Candlestick
 from apps.models.merchandise_rate import MerchandiseRate
-from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column, add_type_continue_column
-from apps.helpers.draw_chart import draw_pie_chart, draw_time_distribution
+from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column, add_type_continue_column, add_highest_in_day_column
+from apps.helpers.draw_chart import draw_pie_chart, draw_time_distribution, draw_bar_horizontal_chart
 
 class HighestHourInDayApp(HydraHeadApp):
 
@@ -39,17 +39,13 @@ class HighestHourInDayApp(HydraHeadApp):
     st.write("Biểu đồ % hour return qua từng giờ: ")
     st.bar_chart(df[df['hour'] == hour_observe]['hour_return'])
 
-    if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
-      df = add_type_continue_column(df)
-      type_continuous_group = df.groupby(['type_continuous']).size()
-
-      st.write(type_continuous_group)
-
-      st.pyplot(draw_pie_chart(type_continuous_group))
-
 
   def run(self):
     st.write('HI, IM A DATA HOURS!')
+
+    #config css
+    st.write('<style>div.row-widget.stRadio > div{flex-direction:row;} </style>', unsafe_allow_html=True)
+    st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 
     @st.experimental_memo
     def load_data(merchandise_rate_name, limit, start_date, end_date):
@@ -112,19 +108,22 @@ class HighestHourInDayApp(HydraHeadApp):
     st.pyplot(draw_time_distribution(prices))
 
     if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
-      df = add_type_continue_column(df)
-      type_continuous_group = df.groupby(['type_continuous']).size()
+      prices = add_type_continue_column(prices)
+      type_continuous_group = prices.groupby(['type_continuous']).size()
 
       st.write(type_continuous_group)
 
       st.pyplot(draw_pie_chart(type_continuous_group))
 
-    current_hour = datetime.datetime.now().hour
+    st.info("thời gian giao dịch biến động nhất trong ngày")
+    prices = add_highest_in_day_column(prices)
+    st.write(prices)
+    st.pyplot(draw_bar_horizontal_chart(prices))
 
-    #radio hang ngang
-    st.write('<style>div.row-widget.stRadio > div{flex-direction:row;} </style>', unsafe_allow_html=True)
-    st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 
-    hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+    if st.button("Lựa chọn giờ quan sát"):
+      current_hour = datetime.datetime.now().hour
 
-    self.analytics_hour(prices, hour_observe)
+      hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+
+      self.analytics_hour(prices, hour_observe)

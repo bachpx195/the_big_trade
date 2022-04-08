@@ -68,3 +68,27 @@ def draw_pie_chart(df):
 
   plt.legend()
   return plt
+
+def draw_bar_horizontal_chart(df):
+  plt.figure()
+  highest_in_day_group = df.groupby(
+      'day').mean().groupby('highest_in_day').count()
+
+  list_hours = [int(hour) for hour in highest_in_day_group.index.values.tolist()]
+  list_highest_in_day = highest_in_day_group['hour'].tolist()
+
+  plt.rcParams['figure.figsize'] = [10, 10]
+
+  fig, ax = plt.subplots()
+  ax.barh(list_hours, list_highest_in_day, align='center')
+
+  ax.set_yticks(list_hours)
+  ax.set_yticklabels(list_hours)
+  ax.set_xticks([])
+
+  ax2 = ax.twinx()
+  ax2.set_ylim(ax.get_ylim())
+  ax2.set_yticks(list_hours)
+  ax2.set_yticklabels(list_highest_in_day)
+
+  return plt

@@ -29,3 +29,11 @@ def add_type_column(df):
 def add_type_continue_column(df):
   df['type_continuous'] = type_continuous(df)
   return df
+
+def highest_in_day(df, x):
+  max = df[df.day == x.day].hour_return.max()
+  return df[(df.day == x.day) & (df.hour_return == max)].hour.iat[0]
+
+def add_highest_in_day_column(df):
+  df['highest_in_day'] = df[['day']].apply(lambda x: highest_in_day(df, x), axis=1)
+  return df
