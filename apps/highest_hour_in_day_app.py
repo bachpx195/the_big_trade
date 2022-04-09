@@ -113,8 +113,13 @@ class HighestHourInDayApp(HydraHeadApp):
       st.write(highest_hour_df.groupby(['highest_in_day']).size())
     with c3:
       st.markdown(f"""
-        + Thời gian biến
-        + huhu
+        ### Tổng kết
+        + Trong tập dữ liệu 30 ngày của {merchandise_rate}, 21h là thời gian có xác suất biến động cao nhất ~ 16,1%.
+        + Các khoảng thời gian có xác suất biến động cao khác là 2h, 6h, 8h.
+        + Các khoảng thời gian có biến động nhỏ là 0h, 9h, 12h, 13h, 14h, 15h, 16h, 17h.
+        ### Lưu ý
+        + Tránh giao dịch vào những khoảng thời gian có xác suất biến động cao.
+        + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ biến động hội tụ trong biên độ.
       """)
 
     st.pyplot(draw_time_distribution(prices))
