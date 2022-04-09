@@ -7,6 +7,7 @@ from apps.models.candlestick import Candlestick
 from apps.models.merchandise_rate import MerchandiseRate
 from apps.services.ochl_dataframe import add_hour_column, add_return_column, add_type_column, add_day_column, add_type_continue_column, add_highest_in_day_column
 from apps.helpers.draw_chart import draw_pie_chart, draw_time_distribution, draw_bar_horizontal_chart
+from apps.services.custom_dataframe import custom_highest_hour_dataframe
 
 class HighestHourInDayApp(HydraHeadApp):
 
@@ -41,8 +42,6 @@ class HighestHourInDayApp(HydraHeadApp):
 
 
   def run(self):
-    st.write('HI, IM A DATA HOURS!')
-
     #config css
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;} </style>', unsafe_allow_html=True)
     st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
@@ -66,11 +65,11 @@ class HighestHourInDayApp(HydraHeadApp):
     c1, c2 = st.columns([2, 2])
     merchandise_rate = LIST_MERCHANDISE_RATE[0]
     with c1:
-      merchandise_rate = st.radio("Chọn loại tiền cần phân tích: ", LIST_MERCHANDISE_RATE)
+      merchandise_rate = st.radio("Chọn loại tài sản cần phân tích: ", LIST_MERCHANDISE_RATE)
 
     c1, c2, c3, c4, c5 = st.columns([4, 1, 1, 1, 1])
     with c1:
-      record_limit = st.number_input('Nhập số lượng', value=50*HOURS_IN_DAY)
+      record_limit = st.number_input('Nhập số lượng dữ liệu (đơn vị: giờ)', value=50*HOURS_IN_DAY)
     with c2:
       if st.checkbox("1 Tuần"):
         record_limit = None
@@ -90,40 +89,43 @@ class HighestHourInDayApp(HydraHeadApp):
     c1, c2 = st.columns([2, 2])
     start_date = None
     with c1:
-      if st.checkbox("Ngày bắt đầu"):
+      if st.checkbox("Ngày bắt đầu phân tích"):
         start_date = st.date_input('Chọn ngày bắt đầu')
       else:
         start_date = None
 
     end_date = None
     with c2:
-      if st.checkbox("Ngày kết thúc"):
+      if st.checkbox("Ngày kết thúc phân tích"):
         end_date = st.date_input('Chọn ngày kết thúc')
       else:
         end_date = None
 
     prices = load_data(merchandise_rate, record_limit, start_date, end_date)
 
-    st.info(f"Thời gian quan sát trong {int(record_limit or 0)/HOURS_IN_DAY} ngày")
+    st.info(f"Dữ liệu được quan sát trong {int(record_limit or 0)/HOURS_IN_DAY} ngày")
+    st.header("Thời gian giao dịch biến động nhất trong ngày")
+    highest_hour_df = custom_highest_hour_dataframe(prices)
+    c1, c2, c3 = st.columns([6, 1, 4])
+    with c1:
+      st.pyplot(draw_pie_chart(highest_hour_df.groupby(['highest_in_day']).size()))
+    with c2:
+      st.write(highest_hour_df.groupby(['highest_in_day']).size())
+    with c3:
+      st.markdown(f"""
+        + Thời gian biến
+        + huhu
+      """)
+
     st.pyplot(draw_time_distribution(prices))
 
     if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
       prices = add_type_continue_column(prices)
       type_continuous_group = prices.groupby(['type_continuous']).size()
-
       st.write(type_continuous_group)
-
       st.pyplot(draw_pie_chart(type_continuous_group))
-
-    st.info("thời gian giao dịch biến động nhất trong ngày")
-    prices = add_highest_in_day_column(prices)
-    st.write(prices)
-    st.pyplot(draw_bar_horizontal_chart(prices))
-
 
     if st.button("Lựa chọn giờ quan sát"):
       current_hour = datetime.datetime.now().hour
-
       hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
-
       self.analytics_hour(prices, hour_observe)
