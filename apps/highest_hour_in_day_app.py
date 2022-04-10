@@ -119,16 +119,40 @@ class HighestHourInDayApp(HydraHeadApp):
         + Các khoảng thời gian có biến động nhỏ là 0h, 9h, 12h, 13h, 14h, 15h, 16h, 17h.
         ### Lưu ý
         + Tránh giao dịch vào những khoảng thời gian có xác suất biến động cao.
-        + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ biến động hội tụ trong biên độ.
+        + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ giao động hội tụ trong biên độ.
       """)
 
-    st.pyplot(draw_time_distribution(prices))
+    st.header("Hiệu ứng thời gian trong ngày")
+    c1, c2 = st.columns([7, 4])
+    with c1:
+      st.pyplot(draw_time_distribution(prices))
+    with c2:
+      st.markdown(f"""
+        ### Tổng kết
+        + Trong tập dữ liệu 30 ngày của {merchandise_rate}, 20h là thời gian có xác suất nến xanh cao.
+        ### Lưu ý
+        + Đặt lệnh mua với các khung giờ có xác suất nến xanh cao, ngược lại đối với lệnh bán.
+      """)
 
     if st.button("Hiện thị tăng/giảm liên tục của cụm nến"):
+      c1, c2, c3 = st.columns([6, 1, 4])
       prices = add_type_continue_column(prices)
       type_continuous_group = prices.groupby(['type_continuous']).size()
-      st.write(type_continuous_group)
-      st.pyplot(draw_pie_chart(type_continuous_group))
+
+      with c1:
+        st.pyplot(draw_pie_chart(type_continuous_group))
+      with c2:
+        st.write(type_continuous_group)
+      with c3:
+        st.markdown(f"""
+          ### Tổng kết
+          + Trong tập dữ liệu 30 ngày của {merchandise_rate}, 21h là thời gian có xác suất biến động cao nhất ~ 16,1%.
+          + Các khoảng thời gian có xác suất biến động cao khác là 2h, 6h, 8h.
+          + Các khoảng thời gian có biến động nhỏ là 0h, 9h, 12h, 13h, 14h, 15h, 16h, 17h.
+          ### Lưu ý
+          + Tránh giao dịch vào những khoảng thời gian có xác suất biến động cao.
+          + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ giao động hội tụ trong biên độ.
+        """)
 
     if st.button("Lựa chọn giờ quan sát"):
       current_hour = datetime.datetime.now().hour
