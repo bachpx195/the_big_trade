@@ -26,8 +26,9 @@ def add_type_column(df):
   df['type'] = candlestick_type(df)
   return df
 
-def add_type_continue_column(df):
-  df['type_continuous'] = type_continuous(df)
+def add_type_continue_column(df, column_name=None):
+  name = column_name if column_name else 'type_continuous'
+  df[name] = type_continuous(df)
   return df
 
 def highest_in_day(df, x):

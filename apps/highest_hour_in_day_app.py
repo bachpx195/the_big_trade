@@ -154,7 +154,28 @@ class HighestHourInDayApp(HydraHeadApp):
           + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ giao động hội tụ trong biên độ.
         """)
 
-    if st.button("Lựa chọn giờ quan sát"):
-      current_hour = datetime.datetime.now().hour
-      hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
-      self.analytics_hour(prices, hour_observe)
+    current_hour = datetime.datetime.now().hour
+    hour_observe = st.radio("Chọn giờ quan sát", np.arange(24), index=current_hour)
+    self.analytics_hour(prices, hour_observe)
+
+    if st.button(f"Hiện thị tăng/giảm liên tục của cụm nến trong {hour_observe}"):
+      c1, c2, c3 = st.columns([6, 1, 4])
+      type_continuous_str = f"type_continuous_{hour_observe}"
+      data_prices_by_hour = prices[(prices['hour'] == hour_observe)]
+      data_prices_by_hour = add_type_continue_column(data_prices_by_hour, type_continuous_str)
+      type_continuous_group_by_hour = data_prices_by_hour.groupby([type_continuous_str]).size()
+
+      with c1:
+        st.pyplot(draw_pie_chart(type_continuous_group_by_hour))
+      with c2:
+        st.write(type_continuous_group_by_hour)
+      with c3:
+        st.markdown(f"""
+          ### Tổng kết
+          + Trong tập dữ liệu 30 ngày của {merchandise_rate}, 21h là thời gian có xác suất biến động cao nhất ~ 16,1%.
+          + Các khoảng thời gian có xác suất biến động cao khác là 2h, 6h, 8h.
+          + Các khoảng thời gian có biến động nhỏ là 0h, 9h, 12h, 13h, 14h, 15h, 16h, 17h.
+          ### Lưu ý
+          + Tránh giao dịch vào những khoảng thời gian có xác suất biến động cao.
+          + Sau khi xuất hiện giờ biến động cao, thời gian còn lại sẽ giao động hội tụ trong biên độ.
+        """)
