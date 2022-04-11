@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 import numpy as np
+import plotly.figure_factory as ff
 from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, HOURS_IN_DAY
 from apps.models.candlestick import Candlestick
@@ -33,6 +34,16 @@ class HighestHourInDayApp(HydraHeadApp):
     with c1:
       st.write('Chi tiết nến xanh')
       st.write(prices_up['hour_return'].describe())
+      hist_data = [prices_up['hour_return'].values.tolist()]
+
+      group_labels = ['Group 1']
+
+      # Create distplot with custom bin_size
+      fig = ff.create_distplot(
+              hist_data, group_labels, bin_size=1)
+
+      # Plot!
+      st.plotly_chart(fig, use_container_width=True)
     with c2:
       st.write('Chi tiết nến đỏ')
       st.write(prices_down['hour_return'].describe())
@@ -103,7 +114,7 @@ class HighestHourInDayApp(HydraHeadApp):
 
     prices = load_data(merchandise_rate, record_limit, start_date, end_date)
 
-    st.info(f"Dữ liệu được quan sát trong {int(record_limit or 0)/HOURS_IN_DAY} ngày")
+    st.info(f"Dữ liệu được quan sát trong {int(record_limit or len(prices.index))/HOURS_IN_DAY} ngày")
     st.header("Thời gian giao dịch biến động nhất trong ngày")
     highest_hour_df = custom_highest_hour_dataframe(prices)
     c1, c2, c3 = st.columns([6, 1, 4])
