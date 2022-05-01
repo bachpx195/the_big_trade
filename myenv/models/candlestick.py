@@ -5,7 +5,7 @@ from myenv.database.pymysql_conn import DataBase
 
 
 db = DataBase()
-INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4}
+INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4, "15m": 5}
 
 
 class Candlestick:
