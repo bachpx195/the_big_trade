@@ -3,10 +3,8 @@ import pytz
 from datetime import timezone
 from configs.database.pymysql_conn import DataBase
 
-
 db = DataBase()
 INTERVAL_HASH = {"day": 1, "week": 2, "month": 3, "hour": 4, "15m": 5}
-
 
 class Candlestick:
     def __init__(self, merchandise_rate_id, interval="day", limit=None, sort="ASC", start_date=None, end_date=None):

@@ -17,11 +17,11 @@ def draw_candlestick(df):
 
   return fig
 
-def draw_candlestick2(df):
+def draw_candlestick_use_zones(df, zones):
   df = df.iloc[::-1]
 
   tickvals =[k*0.5 for k in range(len(df))]
-  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %H") for date in df.index))
+  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
 
   fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
                   open=df['open'], high=df['high'],
@@ -29,77 +29,12 @@ def draw_candlestick2(df):
 
   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext)
 
-
-  Average_Weight = 1.0
-  Min_Zone_Width = 3
-  Tolerance = 20
-
-  avgZoneHeight = 0
-  tolerancePt = Tolerance*0.001
-
-  numBars = 30
-  hasBrokenRange = False
-  zoneStart = 29
-  zoneEnd = 0
-  zoneSize = 0
-  zonesCounter = 0
-  zones = []
-
-  rangeHigh = df.iloc[numBars - 1].high + tolerancePt
-  rangeLow = df.iloc[numBars - 1].low - tolerancePt
-
-  for i in range(numBars - 2,-1,-1):
-    zoneSize = zoneStart - i
-    zoneEnd = i
-    if df.iloc[i].open > rangeHigh or df.iloc[i].open < rangeLow or df.iloc[i].close > rangeHigh or df.iloc[i].close < rangeLow:
-      if zoneSize >= Min_Zone_Width:
-            avgZoneHeight += abs(rangeHigh - rangeLow)
-
-            zonesCounter = zonesCounter + 1
-
-      hasBrokenRange = True
-      zoneStart = i
-      rangeHigh = df.iloc[i].high + tolerancePt;
-      rangeLow = df.iloc[i].low - tolerancePt;
-    else:
-      hasBrokenRange = False
-
-  avgZoneHeight /= zonesCounter * Average_Weight
-
-  for i in range(numBars - 2,-1,-1):
-    zoneSize = zoneStart - i
-    zoneEnd = i
-    if df.iloc[i].open > rangeHigh or df.iloc[i].open < rangeLow or df.iloc[i].close > rangeHigh or df.iloc[i].close < rangeLow:
-      if zoneSize >= Min_Zone_Width:
-        zones.append({'start': zoneStart, 'end': zoneEnd + 1, 'low': rangeLow, 'high': rangeHigh})
-
-        zonesCounter = zonesCounter + 1
-
-      hasBrokenRange = True
-      zoneStart = i
-      rangeHigh = df.iloc[i].high + tolerancePt;
-      rangeLow = df.iloc[i].low - tolerancePt;
-
-      if abs(df.iloc[i].high - df.iloc[i].low) >= avgZoneHeight:
-        zoneStart = -1
-        rangeHigh = 0
-        rangeLow = 0
-        continue
-
-    else:
-      hasBrokenRange = False
-
-  if hasBrokenRange == False and zoneSize >= Min_Zone_Width:
-    zones.append({'start': zoneStart, 'end': 0, 'low': rangeLow, 'high': rangeHigh})
-
-
-
   for zone in zones:
     fig.add_shape(dict(type='rect',
                       xref='x', yref='y',
                       layer='below',
-                      x0 = tickvals[zone['end']], y0 = zone['low'],
-                      x1 = tickvals[zone['start']], y1 = zone['high'],
+                      x0 = tickvals[zone.end]  - 0.2, y0 = zone.low,
+                      x1 = tickvals[zone.start] + 0.2, y1 = zone.high,
                       fillcolor='orange', #'RoyalBlue',
                       opacity=0.35))
 
