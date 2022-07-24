@@ -1,3 +1,4 @@
+from sqlalchemy import true
 from .constants import OPEN_INDEX, CLOSE_INDEX
 import pandas as pd
 
@@ -17,6 +18,40 @@ def candlestick_first_15m(df_in_hour, df_in_minute):
 
 def type_continuous(df, sort_type='DESC'):
     return df.apply(lambda row: count_continuous(df, row, sort_type), axis=1)
+
+def is_2h_in_open_price(df):
+    """ Nếu giá của nến 2h và nến 7h trong ngày giao với nhau thì trả về true"""
+    return df.apply(lambda row: calc_2h_in_open_price(df, row), axis=1)
+
+def calc_2h_in_open_price(df, row):
+    import datetime
+
+    # import pdb; pdb.set_trace()
+    current_time = row.day
+    if row.hour < 7 and row.hour >= 0:
+        try:
+            previous_day = (datetime.datetime.strptime(current_time, "%Y-%m-%d") - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+
+            # lấy row đầu tiên sau khi query
+            data_2h = df[(df['day'] == current_time) & (df['hour'] == 2)].iloc[0]
+            data_7h = df[(df['day'] == previous_day) & (df['hour'] == 7)].iloc[0]
+
+            if data_2h is None or data_7h is None:
+                return False
+
+            if (data_7h.high >= data_2h.low and data_2h.low >= data_7h.low) or (data_7h.high >= data_2h.high and data_2h.high >= data_7h.low):
+                return False
+            else:
+                print("_______7h_______")
+                print(data_7h)
+                print("_______2h_______")
+                print(data_2h)
+
+                return True
+        except:
+            return ''
+    else:
+        return False
 
 def count_continuous(df, row, sort_type='DESC'):
     count = 0
@@ -51,7 +86,6 @@ def calc_until_now_type(row, df):
         return 'down' if df[(df['day'] == row.day) & (df['hour'] == 7)].iloc[-1]['open'] < row.iloc[OPEN_INDEX] else 'up'
     except:
         return ''
-
 
 def phi_coefficient(df, col1, col2):
     # https://en.wikipedia.org/wiki/Phi_coefficient

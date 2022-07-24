@@ -1,9 +1,11 @@
-Metadata-Version: 1.2
+Metadata-Version: 2.1
 Name: myenv
 Version: 0.0.1
 Summary: A small example package
 Home-page: UNKNOWN
 License: UNKNOWN
-Description: UNKNOWN
 Platform: UNKNOWN
 Requires-Python: >=3.7
+
+UNKNOWN
+

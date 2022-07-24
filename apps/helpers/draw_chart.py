@@ -1,6 +1,7 @@
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import numpy as np
+from apps.helpers.datetime_helper import next_day
 
 
 def draw_candlestick(df):
@@ -14,6 +15,27 @@ def draw_candlestick(df):
 
   fig = go.Figure()
   fig.add_trace(candlestick_data)
+
+  fig.update_layout(xaxis_rangeslider_visible=False)
+
+  return fig
+
+# format date = 2022-07-22
+def draw_candlestick_by_day(df, date):
+  df = df[(df['day'] == date) | (df['day'] == next_day(date))]
+
+  candlestick_data = go.Candlestick(
+    x=df.index.tolist(),
+    open=df['open'].tolist(),
+    high=df['high'].tolist(),
+    low=df['low'].tolist(),
+    close=df['close'].tolist()
+  )
+
+  fig = go.Figure()
+  fig.add_trace(candlestick_data)
+
+  fig.update_layout(xaxis_rangeslider_visible=False)
 
   return fig
 

@@ -34,6 +34,8 @@ if __name__ == '__main__':
   app.add_app("Data", app=apps.DataApp(title='Data'))
   app.add_app("True Range", app=apps.TrueRangeApp(title='True Range'))
   app.add_app("Hour Data", app=apps.HighestHourInDayApp(title='Hour Data'))
+  app.add_app("Diff Data", app=apps.DiffDataApp(title='Diff Data'))
+  app.add_app("Data 2h", app=apps.Data2hApp(title='Data 2h'))
 
   app.add_loader_app(apps.MyLoadingApp(delay=0))
 
@@ -42,7 +44,9 @@ if __name__ == '__main__':
     'Home': ['Home'],
     'Data': ['Data'],
     'Hour Data': ['Hour Data'],
-    'True Range': ['True Range']
+    'True Range': ['True Range'],
+    'Diff Data': ['Diff Data'],
+    'Data 2h': ['Data 2h']
   }
 
   app.run(complex_nav)

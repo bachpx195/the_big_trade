@@ -1,4 +1,1 @@
 pymysql
-streamlit
-streamlit-pandas-profiling
-hydralit

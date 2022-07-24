@@ -1,5 +1,5 @@
 from apps.helpers.constants import HIGH_INDEX, LOW_INDEX, OPEN_INDEX, CLOSE_INDEX
-from apps.helpers.utils import percentage_change, candlestick_type, type_continuous, until_now_type, candlestick_type_by_hour
+from apps.helpers.utils import percentage_change, candlestick_type, type_continuous, until_now_type, candlestick_type_by_hour, is_2h_in_open_price
 
 
 def add_return_column(df):
@@ -29,6 +29,10 @@ def add_type_column(df):
 def add_type_continue_column(df, column_name=None):
   name = column_name if column_name else 'type_continuous'
   df[name] = type_continuous(df)
+  return df
+
+def add_2h_sideway_type(df):
+  df['2h_type'] = is_2h_in_open_price(df)
   return df
 
 def highest_in_day(df, x):

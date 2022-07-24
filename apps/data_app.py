@@ -2,25 +2,15 @@ import streamlit as st
 # import pandas_profiling
 from hydralit import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
-from myenv.models.candlestick import Candlestick
-from myenv.models.merchandise_rate import MerchandiseRate
 from apps.services.update_data import update_all_data
 from apps.helpers.draw_chart import draw_candlestick
-# from streamlit_pandas_profiling import st_profile_report
+from apps.concern.load_data import load_data
 
 class DataApp(HydraHeadApp):
 
   def __init__(self, title = 'Hydralit Explorer', **kwargs):
     self.__dict__.update(kwargs)
     self.title = title
-
-  def load_data(self, merchandise_rate_name, interval, limit, start_date, end_date):
-    merchandise_rate = MerchandiseRate()
-    merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-    candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
-    prices = candlestick.to_df()
-    prices['return'] = prices['close'].pct_change() * 100
-    return prices
 
   #This one method that must be implemented in order to be used in a Hydralit application.
   #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
@@ -67,12 +57,9 @@ class DataApp(HydraHeadApp):
       else:
         end_date = None
 
-    prices = self.load_data(merchandise_rate, interval, record_limit, start_date, end_date)
+    prices = load_data(merchandise_rate, interval, record_limit, start_date, end_date)
     if st.button('hiển thị dataframe'):
       st.write(prices)
     draw_candlestick(prices)
-
-    # pr = prices.profile_report()
-    # st_profile_report(pr)
 
     st.plotly_chart(draw_candlestick(prices), use_container_width=True)
