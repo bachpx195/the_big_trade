@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import numpy as np
 from apps.helpers.datetime_helper import next_day
+from apps.helpers.utils import max_high_and_low
 
 
 def draw_candlestick(df):
@@ -16,7 +17,7 @@ def draw_candlestick(df):
   fig = go.Figure()
   fig.add_trace(candlestick_data)
 
-  fig.update_layout(xaxis_rangeslider_visible=False)
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
   return fig
 
@@ -49,7 +50,7 @@ def draw_candlestick_use_zones(df, zones):
                   open=df['open'], high=df['high'],
                   low=df['low'], close=df['close'])])
 
-  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext)
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
   for zone in zones:
     fig.add_shape(dict(type='rect',
@@ -61,6 +62,43 @@ def draw_candlestick_use_zones(df, zones):
                       opacity=0.35))
 
   return fig
+
+def draw_candlestick_diff(df):
+  from apps.models.zone import Zone
+  df = df.iloc[::-1]
+
+  if len(df) > 31:
+    end = 31
+  else:
+    end = len(df) - 1
+
+  date_df = df[7:end]
+  # import pdb; pdb.set_trace()
+  high, low = max_high_and_low(date_df)
+
+  zone = Zone(7, end, high, low)
+  print(zone)
+
+  tickvals =[k*0.5 for k in range(len(df))]
+  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+
+  fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+                  open=df['open'], high=df['high'],
+                  low=df['low'], close=df['close'])])
+
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+
+
+  fig.add_shape(dict(type='rect',
+                    xref='x', yref='y',
+                    layer='below',
+                    x0 = tickvals[zone.end]  + 0.2, y0 = zone.low,
+                    x1 = tickvals[zone.start] - 0.2, y1 = zone.high,
+                    fillcolor='orange', #'RoyalBlue',
+                    opacity=0.35))
+
+  return fig
+
 
 
 def draw_time_distribution(df):
