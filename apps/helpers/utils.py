@@ -42,11 +42,6 @@ def calc_2h_in_open_price(df, row):
       if (data_7h.high >= data_2h.low and data_2h.low >= data_7h.low) or (data_7h.high >= data_2h.high and data_2h.high >= data_7h.low):
         return False
       else:
-        print("_______7h_______")
-        print(data_7h)
-        print("_______2h_______")
-        print(data_2h)
-
         return True
     except:
       return ''

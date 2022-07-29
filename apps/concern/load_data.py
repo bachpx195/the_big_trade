@@ -23,6 +23,4 @@ def load_data_2h(merchandise_rate_name, interval, limit = 100, start_date = None
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
   prices = add_2h_sideway_type(prices)
 
-  prices = prices[prices['hour'].isin([1,2,3,4,5,6,7]) & prices['2h_type'] == True]
-
   return prices

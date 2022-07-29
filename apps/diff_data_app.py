@@ -18,8 +18,6 @@ class DiffDataApp(HydraHeadApp):
     hour_prices = load_data('DOTUSDT', 'hour', day*24)
     day_prices = load_data('DOTUSDT', 'day', day)
 
-    # import pdb; pdb.set_trace()
-
     date = to_date(hour_prices[0:1].day[0])
     target_date = st.date_input(
         "Ngày hiện tại",
