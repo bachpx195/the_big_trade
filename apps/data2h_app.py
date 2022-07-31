@@ -26,7 +26,11 @@ class Data2hApp(HydraHeadApp):
     list_valid_day = unique_list(prices_2h.day.values.tolist())
     st.plotly_chart(draw_candlestick(prices_2h), use_container_width=True)
 
-    date = st.selectbox("Danh sách ngày đủ điều kiện", list_valid_day)
+    c1, c2 = st.columns([1, 1])
+    with c1:
+      date = st.selectbox("Danh sách ngày đủ điều kiện", list_valid_day)
+    with c2:
+      st.write(f"Số ngày đủ điều kiện là {len(list_valid_day)}/{day}")
     target_date = st.date_input(
         "Chọn ngày",
         to_date(date))

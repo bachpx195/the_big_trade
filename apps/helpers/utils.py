@@ -34,12 +34,25 @@ def calc_2h_in_open_price(df, row):
 
       # lấy row đầu tiên sau khi query
       data_2h = df[(df['day'] == current_time) & (df['hour'] == 2)].iloc[0]
+      data_1h = df[(df['day'] == current_time) & (df['hour'] == 1)].iloc[0]
+      data_0h = df[(df['day'] == current_time) & (df['hour'] == 0)].iloc[0]
       data_7h = df[(df['day'] == previous_day) & (df['hour'] == 7)].iloc[0]
+
+      data_previous_day = df[(df['day'] == previous_day) & (df['hour'].isin([8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]))]
+      list_hour_return_previous_day = data_previous_day.hour_return.to_list()
+      list_hour_return_previous_day.append(data_0h.hour_return)
 
       if data_2h is None or data_7h is None:
         return False
 
-      if (data_7h.high >= data_2h.low and data_2h.low >= data_7h.low) or (data_7h.high >= data_2h.high and data_2h.high >= data_7h.low):
+      # Nếu giá của nến 2h và nến 7h trong ngày giao với nhau thì trả về true
+      is_price_valid = (data_7h.high >= data_2h.low and data_2h.low >= data_7h.low) or (data_7h.high >= data_2h.high and data_2h.high >= data_7h.low)
+
+      # Nếu cây 1h là cây lớn nhất từ 7h hôm trước đến hiện tại và cây 2h < 1/2 cây 1h
+      hour_return_1h = data_1h.hour_return
+      is_1h_valid = (hour_return_1h > max(list_hour_return_previous_day)) and (abs(data_2h.high - data_2h.low) < abs(data_1h.high - data_1h.low)/2)
+
+      if is_price_valid or is_1h_valid:
         return False
       else:
         return True
