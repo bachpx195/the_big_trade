@@ -19,7 +19,7 @@ class Data2hApp(HydraHeadApp):
     hour_prices = load_data('DOTUSDT', 'hour', day*24)
     day_prices = load_data('DOTUSDT', 'day', day)
 
-    prices = load_data_2h('DOTUSDT', 'hour', 24*60)
+    prices = load_data_2h('DOTUSDT', 'hour', 24*day)
 
     prices_2h = prices[prices['hour'].isin([1,2,3,4,5,6,7]) & prices['2h_type'] == True]
 
