@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import numpy as np
 from apps.helpers.datetime_helper import next_day
-from apps.helpers.utils import max_high_and_low
+from apps.helpers.utils import max_high_and_low, refactor_list_of_float
 
 
 def draw_candlestick(df):
@@ -204,3 +204,10 @@ def draw_bar_horizontal_chart(df):
   ax2.set_yticklabels(list_highest_in_day)
 
   return plt
+
+def draw_histogram(list, bin=10, round_number=2):
+  fig, ax = plt.subplots()
+  # import pdb; pdb.set_trace();
+  ax.hist(refactor_list_of_float(list, round_number), bins=bin)
+
+  return fig

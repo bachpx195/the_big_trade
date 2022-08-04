@@ -1,7 +1,7 @@
 import streamlit as st
 # import pandas_profiling
 from hydralit import HydraHeadApp
-from apps.helpers.draw_chart import draw_candlestick, draw_candlestick_2h
+from apps.helpers.draw_chart import draw_candlestick, draw_candlestick_2h, draw_histogram
 from apps.concern.load_data import load_data_2h, load_data
 from apps.helpers.datetime_helper import next_day, previous_day, to_str, to_date
 from apps.helpers.utils import unique_list
@@ -44,3 +44,10 @@ class Data2hApp(HydraHeadApp):
       st.plotly_chart(draw_candlestick_2h(hour_prices, date), use_container_width=True, config=CONFIG)
     with c2:
       st.plotly_chart(draw_candlestick(date_prices), use_container_width=True, config=CONFIG)
+
+    st.write("Return change của 2h")
+    prices_2h_return_list =  prices_2h[prices_2h['hour'] == 2].hour_return
+
+    st.write(prices_2h_return_list.to_list())
+
+    st.plotly_chart(draw_histogram(prices_2h_return_list.to_list(), 100))

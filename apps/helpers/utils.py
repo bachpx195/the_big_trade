@@ -125,3 +125,6 @@ def max_high_and_low(df):
   """Lấy đỉnh và đáy của một zone"""
 
   return df.high.max(), df.low.min()
+
+def refactor_list_of_float(list, round_number=2):
+  return [round(i, round_number) for i in list]
