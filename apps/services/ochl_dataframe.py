@@ -6,6 +6,10 @@ def add_return_column(df):
   df['hour_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
   return df
 
+def add_day_return_column(df):
+  df['day_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
+  return df
+
 def add_day_column(df):
   df['day'] = df[['open']].apply(lambda x: x.name.strftime("%Y-%m-%d"), axis=1)
   return df
@@ -42,3 +46,6 @@ def highest_in_day(df, x):
 def add_highest_in_day_column(df):
   df['highest_in_day'] = df[['day']].apply(lambda x: highest_in_day(df, x), axis=1)
   return df
+
+def add_break_zone_return_column(df):
+  """Trả về phần trăm vượt quá đinh hoặc đáy so với zone"""

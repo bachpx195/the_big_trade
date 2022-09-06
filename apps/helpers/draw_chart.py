@@ -126,9 +126,6 @@ def draw_candlestick_2h(df, date):
 
   return fig
 
-
-
-
 def draw_time_distribution(df):
   bar_width = 0.35
   opacity = 0.8
@@ -209,5 +206,44 @@ def draw_histogram(list, bin=10, round_number=2):
   fig, ax = plt.subplots()
   # import pdb; pdb.set_trace();
   ax.hist(refactor_list_of_float(list, round_number), bins=bin)
+
+  return fig
+
+def draw_simple_barchart(label_list, value_list):
+  fig = plt.figure(figsize = (10, 5))
+
+  # creating the bar plot
+  plt.bar(label_list, value_list, color ='maroon',
+          width = 0.4)
+
+  plt.xlabel("Courses offered")
+  plt.ylabel("No. of students enrolled")
+  plt.title("Students enrolled in different courses")
+
+
+  plt.figure()
+  highest_in_day_group = df.groupby(
+      'day').mean().groupby('highest_in_day').count()
+
+  list_hours = [int(hour) for hour in highest_in_day_group.index.values.tolist()]
+  list_highest_in_day = highest_in_day_group['hour'].tolist()
+
+  plt.rcParams['figure.figsize'] = [10, 10]
+
+  fig, ax = plt.subplots()
+  ax.barh(list_hours, list_highest_in_day, align='center')
+
+  ax.set_yticks(list_hours)
+  ax.set_yticklabels(list_hours)
+  ax.set_xticks([])
+
+  ax2 = ax.twinx()
+  ax2.set_ylim(ax.get_ylim())
+  ax2.set_yticks(list_hours)
+  ax2.set_yticklabels(list_highest_in_day)
+
+  return plt
+
+
 
   return fig

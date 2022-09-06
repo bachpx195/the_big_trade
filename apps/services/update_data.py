@@ -29,6 +29,8 @@ def update_all_data(merchandise_rate):
   is_updated_day = update_data(merchandise_rate, 'day')
   print("update hour")
   is_updated_hour = update_data(merchandise_rate, 'hour')
+  print("update 15m")
+  is_updated_15m = update_data(merchandise_rate, 'm15')
 
   is_updated_with_btc_quote = True if merchandise_rate == "BTCUSDT" else False
   if merchandise_rate != "BTCUSDT":
@@ -40,6 +42,7 @@ def update_all_data(merchandise_rate):
     is_updated_day_btc = update_data(merchandise_rate, 'day', 'BTC')
     print("update hour with BTC quote")
     is_updated_hour_btc = update_data(merchandise_rate, 'hour', 'BTC')
+    is_updated_15m_btc = update_data(merchandise_rate, 'm15', 'BTC')
     is_updated_with_btc_quote = is_updated_month_btc and is_updated_week_btc and is_updated_day_btc and is_updated_hour_btc
 
-  return is_updated_month and is_updated_week and is_updated_day and is_updated_hour and is_updated_with_btc_quote
+  return is_updated_month and is_updated_week and is_updated_day and is_updated_hour and is_updated_with_btc_quote and is_updated_15m and is_updated_15m_btc
