@@ -18,7 +18,6 @@ FIRST_MERCHANDISE_DATE_IN_DB = {
     'BTCUSDT': '2017-8-17'
 }
 
-
 MID_AUTUMN_DATE = [
  '2017-10-04',
  '2018-09-24',
@@ -26,3 +25,5 @@ MID_AUTUMN_DATE = [
  '2020-10-01',
  '2021-09-21',
 ]
+
+CONFIG = {'displayModeBar': False, 'responsive': False}

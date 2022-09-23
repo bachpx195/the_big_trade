@@ -6,6 +6,10 @@ def add_return_column(df):
   df['hour_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
   return df
 
+def add_volatility_column(df):
+  df['volatility_return'] = percentage_change(df, HIGH_INDEX, LOW_INDEX)
+  return df
+
 def add_day_return_column(df):
   df['day_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
   return df

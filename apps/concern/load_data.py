@@ -1,7 +1,9 @@
+import streamlit as st
 from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate
 from apps.services.ochl_dataframe import add_day_column, add_hour_column, add_return_column, add_2h_sideway_type, add_day_return_column
 
+@st.experimental_memo
 def load_candlestick(merchandise_rate_name, interval, limit = 100, start_date = None, end_date = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -13,19 +15,20 @@ def load_candlestick(merchandise_rate_name, interval, limit = 100, start_date = 
   prices = add_day_column(prices)
   return prices
 
+@st.experimental_memo
 def load_data(merchandise_rate_name, interval, limit = 100, start_date = None, end_date = None):
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
 
   return prices
 
-
+@st.experimental_memo
 def load_data_2h(merchandise_rate_name, interval, limit = 100, start_date = None, end_date = None):
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
   prices = add_2h_sideway_type(prices)
 
   return prices
 
-
+@st.experimental_memo
 def load_day_data(merchandise_rate_name, limit = 100, start_date = None, end_date = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)

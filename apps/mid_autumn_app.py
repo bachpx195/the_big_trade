@@ -30,14 +30,14 @@ class MidAutumnApp(HydraHeadApp):
     st.write(mid_autumn_prices.day_return.to_list())
 
 
-    chart_data = pd.DataFrame(
-      {'value': mid_autumn_prices.day_return.to_list()},
-      columns=mid_autumn_prices.day.to_list())
+    # chart_data = pd.DataFrame(
+    #   {'value': mid_autumn_prices.day_return.to_list()},
+    #   columns=mid_autumn_prices.day.to_list())
 
-    st.write(chart_data)
+    # df = mid_autumn_prices.pivot(index=None,columns='day', values='day_return')
 
     # st.bar_chart(mid_autumn_prices['day_return'])
-    st.bar_chart(chart_data)
+    st.bar_chart(mid_autumn_prices, x='day', y='day_return')
 
 
     # prices = load_data_2h('DOTUSDT', 'hour', 24*day)
