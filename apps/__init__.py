@@ -7,3 +7,4 @@ from apps.diff_data_app import DiffDataApp
 from apps.data2h_app import Data2hApp
 from apps.mid_autumn_app import MidAutumnApp
 from apps.morning_session import MorningSession
+from apps.inside_and_outside_app import InsideAndOutsideApp

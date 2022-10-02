@@ -32,6 +32,7 @@ if __name__ == '__main__':
   #Home button will be in the middle of the nav list now
   app.add_app("Home", icon="🏠", app=apps.HomeApp(title='Home'),is_home=True)
   app.add_app("Data", app=apps.DataApp(title='Data'))
+  app.add_app("Inside And Outside", app=apps.InsideAndOutsideApp(title='Inside And Outside'))
   app.add_app("True Range", app=apps.TrueRangeApp(title='True Range'))
   app.add_app("Hour Data", app=apps.HighestHourInDayApp(title='Hour Data'))
   app.add_app("Diff Data", app=apps.DiffDataApp(title='Diff Data'))
@@ -45,6 +46,7 @@ if __name__ == '__main__':
   complex_nav = {
     'Home': ['Home'],
     'Data': ['Data'],
+    'Inside And Outside': ['Inside And Outside'],
     'Hour Data': ['Hour Data'],
     'True Range': ['True Range'],
     'Diff Data': ['Diff Data'],

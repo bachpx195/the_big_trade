@@ -280,5 +280,35 @@ def draw_simple_barchart(label_list, value_list):
   return plt
 
 
+def draw_inside_and_outside_pie_chart(sizes,labels):
+  plt.figure()
+  fig1, ax1 = plt.subplots(figsize=(12, 7))
+  ax1.pie(sizes, labels=labels, autopct='%1.1f%%')
+  ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-  return fig
+  plt.legend()
+
+  return plt
+
+def draw_inside_and_outside_week_bar_chart(n_groups, max_in_week, min_in_week):
+  fig, ax = plt.subplots()
+  index = np.arange(n_groups)
+  bar_width = 0.35
+  opacity = 0.8
+
+  rects1 = plt.bar(index, max_in_week, bar_width,
+                  alpha=opacity, color='b', label='Giá cao nhất')
+
+  rects2 = plt.bar(index + bar_width, min_in_week, bar_width,
+                  alpha=opacity, color='g', label='Giá thấp nhất')
+
+  plt.xlabel('Ngày')
+  plt.ylabel('Số lần')
+  plt.title(
+      f"Hiệu ứng ngày trong tuần và hành vi của thị trường")
+  plt.xticks(index + bar_width, ('Thứ 2', 'Thứ 3',
+                                'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'))
+  plt.legend()
+  plt.tight_layout()
+
+  return plt
