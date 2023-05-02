@@ -57,3 +57,14 @@ def load_week_data(merchandise_rate_name, df_day):
   prices = add_max_vol_in_week_column(prices, df_day)
 
   return prices
+
+
+@st.experimental_memo
+def load_month_data(merchandise_rate_name, df_month):
+  merchandise_rate = MerchandiseRate()
+  merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
+  candlestick = Candlestick(merchandise_rate_id, interval="month")
+
+  prices = candlestick.to_df()
+
+  return prices

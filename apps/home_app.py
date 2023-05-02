@@ -3,13 +3,12 @@ import streamlit as st
 from hydralit import HydraHeadApp
 from apps.concern.load_data import load_data
 from apps.helpers.draw_chart import draw_candlestick
+from apps.month_return_app import MonthReturnApp
 
 MENU_LAYOUT = [1,1,1,7,2]
 CONFIG = {'displayModeBar': False, 'responsive': False}
 
 class HomeApp(HydraHeadApp):
-
-
    def __init__(self, title = 'Hydralit Explorer', **kwargs):
       self.__dict__.update(kwargs)
       self.title = title
@@ -54,3 +53,8 @@ class HomeApp(HydraHeadApp):
             st.plotly_chart(draw_candlestick(altbtc_hour_prices), use_container_width=True, config=CONFIG)
          with c3:
             st.plotly_chart(draw_candlestick(btc_hour_prices), use_container_width=True, config=CONFIG)
+
+
+      # Test app
+      test_app = MonthReturnApp()
+      MonthReturnApp.run(test_app)

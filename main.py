@@ -38,7 +38,10 @@ if __name__ == '__main__':
   app.add_app("Diff Data", app=apps.DiffDataApp(title='Diff Data'))
   app.add_app("Data 2h", app=apps.Data2hApp(title='Data 2h'))
   app.add_app("Mid autumn", app=apps.MidAutumnApp(title='mid autumn'))
-  app.add_app("Morning session", app=apps.MorningSession(title='morning session'))
+  app.add_app("Morning session", app=apps.MorningSession(
+      title='morning session'))
+  app.add_app("Month return", app=apps.MonthReturnApp(
+      title='month return'))
 
   app.add_loader_app(apps.MyLoadingApp(delay=0))
 
@@ -52,7 +55,8 @@ if __name__ == '__main__':
     'Diff Data': ['Diff Data'],
     'Data 2h': ['Data 2h'],
     'Mid autumn': ['Mid autumn'],
-    'Morning session': ['Morning session']
+    'Morning session': ['Morning session'],
+    'Month return': ['Month return']
   }
 
   app.run(complex_nav)
