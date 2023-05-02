@@ -99,39 +99,45 @@ def draw_candlestick_diff(df):
   return fig
 
 def draw_candlestick_morning_session(df):
-  from apps.models.zone import Zone
+  try:
+    from apps.models.zone import Zone
 
-  # Đảo ngược dataframe
-  df = df.iloc[::-1]
+    # Đảo ngược dataframe
+    df = df.iloc[::-1]
 
-  if len(df) > 40:
-    end = 40
-  else:
-    end = len(df) - 1
+    if len(df) > 40:
+      end = 40
+    else:
+      end = len(df) - 1
 
-  date_df = df[31:end]
-  high, low = max_high_and_low(date_df)
+    date_df = df[31:end]
+    high, low = max_high_and_low(date_df)
 
-  zone = Zone(31, end, high, low)
+    zone = Zone(31, end, high, low)
 
-  tickvals =[k*0.5 for k in range(len(df))]
-  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+    tickvals =[k*0.5 for k in range(len(df))]
+    ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
 
-  fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
-                  open=df['open'], high=df['high'],
-                  low=df['low'], close=df['close'])])
+    fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+                    open=df['open'], high=df['high'],
+                    low=df['low'], close=df['close'])])
 
-  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+    fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
-  fig.add_shape(dict(type='rect',
-                    xref='x', yref='y',
-                    layer='below',
-                    x0 = tickvals[zone.end]  + 0.2, y0 = zone.low,
-                    x1 = tickvals[zone.start] - 0.2, y1 = zone.high,
-                    fillcolor='orange', #'RoyalBlue',
-                    opacity=0.35))
+    fig.add_shape(dict(type='rect',
+                      xref='x', yref='y',
+                      layer='below',
+                      x0 = tickvals[zone.end]  + 0.2, y0 = zone.low,
+                      x1 = tickvals[zone.start] - 0.2, y1 = zone.high,
+                      fillcolor='orange', #'RoyalBlue',
+                      opacity=0.35))
 
-  return fig
+    return fig
+  except:
+    fig = go.Figure()
+    return fig
+
+
 
 def draw_candlestick_2h(df, date):
   from apps.models.zone import Zone

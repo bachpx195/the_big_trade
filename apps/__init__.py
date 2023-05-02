@@ -8,3 +8,4 @@ from apps.data2h_app import Data2hApp
 from apps.mid_autumn_app import MidAutumnApp
 from apps.morning_session import MorningSession
 from apps.inside_and_outside_app import InsideAndOutsideApp
+from apps.month_return_app import MonthReturnApp
