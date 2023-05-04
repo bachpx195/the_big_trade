@@ -18,12 +18,20 @@ def add_day_return_column(df):
   df['day_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
   return df
 
+def add_month_return_column(df):
+  df['month_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
+  return df
+
 def add_day_volatility_column(df):
   df['day_volatility_return'] = percentage_change(df, LOW_INDEX, HIGH_INDEX)
   return df
 
 def add_day_column(df):
   df['day'] = df[['open']].apply(lambda x: x.name.strftime("%Y-%m-%d"), axis=1)
+  return df
+
+def add_month_column(df):
+  df['month'] = df[['open']].apply(lambda x: x.name.strftime("%m"), axis=1)
   return df
 
 def add_hour_column(df):

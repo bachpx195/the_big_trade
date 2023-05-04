@@ -60,11 +60,13 @@ def load_week_data(merchandise_rate_name, df_day):
 
 
 @st.experimental_memo
-def load_month_data(merchandise_rate_name, df_month):
+def load_month_data(merchandise_rate_name):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
   candlestick = Candlestick(merchandise_rate_id, interval="month")
 
   prices = candlestick.to_df()
+  prices = add_month_column(prices)
+  prices = add_month_return_column(prices)
 
   return prices
