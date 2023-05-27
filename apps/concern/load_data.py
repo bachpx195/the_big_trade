@@ -67,6 +67,7 @@ def load_month_data(merchandise_rate_name):
 
   prices = candlestick.to_df()
   prices = add_month_column(prices)
+  prices = add_year_column(prices)
   prices = add_month_return_column(prices)
 
   return prices

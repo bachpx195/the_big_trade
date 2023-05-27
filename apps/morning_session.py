@@ -31,8 +31,6 @@ class MorningSession(HydraHeadApp):
 
         c1, c2 = st.columns([48, 20])
         with c1:
-          st.write("hii")
           st.plotly_chart(draw_candlestick_morning_session(hour_prices_by_date), use_container_width=True, config=CONFIG)
         with c2:
-          st.write("h22")
           st.plotly_chart(draw_candlestick(show_date), use_container_width=True, config=CONFIG)
