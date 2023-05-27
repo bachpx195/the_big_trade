@@ -34,6 +34,10 @@ def add_month_column(df):
   df['month'] = df[['open']].apply(lambda x: x.name.strftime("%m"), axis=1)
   return df
 
+def add_year_column(df):
+  df['year'] = df[['open']].apply(lambda x: x.name.strftime("%Y"), axis=1)
+  return df
+
 def add_hour_column(df):
   df['hour'] = df[['open']].apply(lambda x: x.name.hour, axis=1)
   return df
