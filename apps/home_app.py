@@ -3,7 +3,7 @@ import streamlit as st
 from hydralit import HydraHeadApp
 from apps.concern.load_data import load_data
 from apps.helpers.draw_chart import draw_candlestick
-from apps.month_return_app import MonthReturnApp
+from apps.day_session_app import DaySessionApp
 
 MENU_LAYOUT = [1,1,1,7,2]
 CONFIG = {'displayModeBar': False, 'responsive': False}
@@ -56,5 +56,5 @@ class HomeApp(HydraHeadApp):
 
 
       # Test app
-      test_app = MonthReturnApp()
-      MonthReturnApp.run(test_app)
+      test_app = DaySessionApp()
+      DaySessionApp.run(test_app)

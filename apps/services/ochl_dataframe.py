@@ -1,6 +1,6 @@
 from apps.helpers.constants import HIGH_INDEX, LOW_INDEX, OPEN_INDEX, CLOSE_INDEX
 from apps.helpers.utils import percentage_change, candlestick_type, type_continuous, until_now_type, candlestick_type_by_hour, is_2h_in_open_price
-
+from apps.helpers.datetime_helper import previous_day
 
 def add_return_column(df):
   df['hour_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
@@ -28,6 +28,11 @@ def add_day_volatility_column(df):
 
 def add_day_column(df):
   df['day'] = df[['open']].apply(lambda x: x.name.strftime("%Y-%m-%d"), axis=1)
+  return df
+
+# de doi chieu voi binance chart
+def add_day_with_binance_column(df):
+  df['day_with_binance'] = df[['open']].apply(lambda x: __day_with_binance(x.name), axis=1)
   return df
 
 def add_month_column(df):
@@ -150,3 +155,9 @@ def add_max_vol_in_week_column(df, day_df):
 # Private function
 def __find_week_df(df, row):
   return df[(df['day'] >= row.name.strftime("%Y-%m-%d")) & (df['day'] <= row['end_week'].strftime("%Y-%m-%d"))]
+
+def __day_with_binance(time):
+  if time.hour in [0,1,2,3,4,5,6]:
+    return previous_day(time.strftime("%Y-%m-%d"))
+  else:
+    return time.strftime("%Y-%m-%d")

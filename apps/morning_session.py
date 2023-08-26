@@ -13,7 +13,7 @@ class MorningSession(HydraHeadApp):
     self.title = title
 
   def run(self):
-    alt_name = 'DOTUSDT'
+    alt_name = 'LTCUSDT'
 
     day = st.number_input('Nhập số lượng dữ liệu (đơn vị: ngày)', value=50)
 

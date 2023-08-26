@@ -137,7 +137,22 @@ def draw_candlestick_morning_session(df):
     fig = go.Figure()
     return fig
 
+def draw_candlestick_day_session(df):
+  try:
+    df = df.iloc[::-1]
+    tickvals =[k*0.5 for k in range(len(df))]
+    ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
 
+    fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+                    open=df['open'], high=df['high'],
+                    low=df['low'], close=df['close'])])
+
+    fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+
+    return fig
+  except:
+    fig = go.Figure()
+    return fig
 
 def draw_candlestick_2h(df, date):
   from apps.models.zone import Zone
@@ -177,7 +192,6 @@ def draw_time_distribution(df):
 
   x = ()
   y = ()
-
 
   for i in np.arange(24):
       data_prices_x = df[df['hour'] == i]

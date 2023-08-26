@@ -22,6 +22,19 @@ def load_data(merchandise_rate_name, interval, limit, start_date = None, end_dat
   return prices
 
 @st.experimental_memo
+def load_hour_data(merchandise_rate_name, limit, start_date = None, end_date = None):
+  merchandise_rate = MerchandiseRate()
+  merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
+  candlestick = Candlestick(merchandise_rate_id, 'hour', limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
+
+  prices = candlestick.to_df()
+  prices = add_return_column(prices)
+  prices = add_hour_column(prices)
+  prices = add_day_column(prices)
+  prices = add_day_with_binance_column(prices)
+  return prices
+
+@st.experimental_memo
 def load_data_2h(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
   prices = add_2h_sideway_type(prices)
