@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import plotly.figure_factory as ff
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.constants import CONFIG
 from apps.helpers.draw_chart import draw_candlestick_morning_session, draw_candlestick
 from apps.concern.load_data import load_data

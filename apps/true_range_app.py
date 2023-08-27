@@ -1,5 +1,5 @@
 import streamlit as st
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate

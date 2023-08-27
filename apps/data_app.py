@@ -1,6 +1,6 @@
 import streamlit as st
 # import pandas_profiling
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from apps.services.update_data import update_all_data
 from apps.helpers.draw_chart import draw_candlestick

@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import numpy as np
 import plotly.figure_factory as ff
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, HOURS_IN_DAY
 from apps.models.candlestick import Candlestick
 from apps.models.merchandise_rate import MerchandiseRate
@@ -58,7 +58,7 @@ class HighestHourInDayApp(HydraHeadApp):
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;} </style>', unsafe_allow_html=True)
     st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 
-    @st.experimental_memo
+    @st.cache_data
     def load_data(merchandise_rate_name, limit, start_date, end_date):
       merchandise_rate = MerchandiseRate()
       merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)

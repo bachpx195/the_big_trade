@@ -1,6 +1,6 @@
 import time
 import streamlit as st
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from hydralit_components import HyLoader, Loaders
 
 

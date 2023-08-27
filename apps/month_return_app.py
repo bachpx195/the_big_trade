@@ -1,7 +1,7 @@
 from calendar import week
 import datetime
 import streamlit as st
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 import numpy as np
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, CONFIG
 from apps.concern.load_data import load_month_data

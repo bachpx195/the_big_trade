@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.concern.load_data import load_data
 from apps.helpers.draw_chart import draw_candlestick
 from apps.day_session_app import DaySessionApp

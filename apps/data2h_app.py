@@ -1,6 +1,6 @@
 import streamlit as st
 # import pandas_profiling
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.draw_chart import draw_candlestick, draw_candlestick_2h, draw_histogram
 from apps.concern.load_data import load_data_2h, load_data
 from apps.helpers.datetime_helper import next_day, previous_day, to_str, to_date
