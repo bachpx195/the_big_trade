@@ -8,6 +8,11 @@ setuptools.setup(
     python_requires='>=3.7',
     install_requires=[
         'pymysql',
-        'scipy'
+        'scipy',
+        'streamlit >=1.0',
+        'compress_pickle',
+        'hydralit_components>=1.0.7',
+        'validators',
+        'bokeh',
     ],
 )

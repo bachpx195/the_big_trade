@@ -3,7 +3,7 @@ from myenv.models.candlestick import Candlestick
 from myenv.models.merchandise_rate import MerchandiseRate
 from apps.services.ochl_dataframe import *
 
-@st.experimental_memo
+@st.cache_data
 def load_candlestick(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -15,13 +15,13 @@ def load_candlestick(merchandise_rate_name, interval, limit, start_date = None, 
   prices = add_day_column(prices)
   return prices
 
-@st.experimental_memo
+@st.cache_data
 def load_data(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
 
   return prices
 
-@st.experimental_memo
+@st.cache_data
 def load_hour_data(merchandise_rate_name, limit, start_date = None, end_date = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -34,14 +34,14 @@ def load_hour_data(merchandise_rate_name, limit, start_date = None, end_date = N
   prices = add_day_with_binance_column(prices)
   return prices
 
-@st.experimental_memo
+@st.cache_data
 def load_data_2h(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
   prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
   prices = add_2h_sideway_type(prices)
 
   return prices
 
-@st.experimental_memo
+@st.cache_data
 def load_day_data(merchandise_rate_name, limit=None, start_date = None, end_date = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -56,7 +56,7 @@ def load_day_data(merchandise_rate_name, limit=None, start_date = None, end_date
 
   return prices
 
-@st.experimental_memo
+@st.cache_data
 def load_week_data(merchandise_rate_name, df_day):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
@@ -72,7 +72,7 @@ def load_week_data(merchandise_rate_name, df_day):
   return prices
 
 
-@st.experimental_memo
+@st.cache_data
 def load_month_data(merchandise_rate_name):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)

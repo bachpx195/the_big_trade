@@ -1,6 +1,6 @@
 from calendar import week
 import streamlit as st
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, LIST_INTERVAL
 from apps.concern.load_data import load_day_data, load_week_data
 from apps.helpers.draw_chart import draw_inside_and_outside_pie_chart, draw_inside_and_outside_week_bar_chart

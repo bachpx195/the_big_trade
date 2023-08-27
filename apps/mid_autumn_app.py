@@ -2,7 +2,7 @@ import streamlit as st
 import datetime as dt
 import pandas as pd
 # import pandas_profiling
-from hydralit import HydraHeadApp
+from hydralit_custom import HydraHeadApp
 from apps.helpers.draw_chart import draw_simple_barchart
 from apps.concern.load_data import load_day_data
 from apps.helpers.datetime_helper import next_day, previous_day, to_str, to_date

@@ -1,3 +1,4 @@
 apps
 configs
+hydralit_custom
 myenv
