@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import numpy as np
 from apps.helpers.datetime_helper import next_day
-from apps.helpers.utils import max_high_and_low, refactor_list_of_float
+from apps.helpers.utils import max_high_and_low, refactor_list_of_float, find_highest_and_lower_hour
 
 
 def draw_candlestick(df):
@@ -136,6 +136,51 @@ def draw_candlestick_morning_session(df):
   except:
     fig = go.Figure()
     return fig
+  
+def draw_candlestick_with_highest_and_lowest_zone(df):
+  # try:
+  from apps.models.zone import Zone
+
+  # Đảo ngược dataframe
+  df = df.iloc[::-1]
+
+  highest_hour, lowest_hour, highest, lowest = find_highest_and_lower_hour(df)
+
+  highest_number = highest_hour - 7 if highest_hour >= 7 else highest_hour + 17
+  lowest_number = lowest_hour - 7 if lowest_hour >= 7 else lowest_hour + 17
+  zone_highest = Zone(highest_number, highest_number, highest, lowest)
+  zone_lowest = Zone(lowest_number, lowest_number, highest, lowest)
+
+
+  tickvals =[k*0.5 for k in range(len(df))]
+  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+
+  fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+                  open=df['open'], high=df['high'],
+                  low=df['low'], close=df['close'])])
+
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+
+  fig.add_shape(dict(type='rect',
+                    xref='x', yref='y',
+                    layer='below',
+                    x0 = tickvals[zone_highest.end]  + 0.2, y0 = zone_highest.low,
+                    x1 = tickvals[zone_highest.start] - 0.2, y1 = zone_highest.high,
+                    fillcolor='orange', #'RoyalBlue',
+                    opacity=0.35))
+
+  fig.add_shape(dict(type='rect',
+                    xref='x', yref='y',
+                    layer='below',
+                    x0 = tickvals[zone_lowest.end]  + 0.2, y0 = zone_lowest.low,
+                    x1 = tickvals[zone_lowest.start] - 0.2, y1 = zone_lowest.high,
+                    fillcolor='pink', #'RoyalBlue',
+                    opacity=0.35))
+
+  return fig
+  # except:
+  #   fig = go.Figure()
+  #   return fig
 
 def draw_candlestick_day_session(df):
   try:
@@ -171,7 +216,6 @@ def draw_candlestick_2h(df, date):
 
   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
-
   fig.add_shape(dict(type='rect',
                     xref='x', yref='y',
                     layer='below',
@@ -201,7 +245,6 @@ def draw_time_distribution(df):
 
       x = x + (number_up,)
       y = y + (number_down,)
-
 
   plt.figure(figsize=[20,10])
   plt.rcParams['figure.figsize'] = [10, 10]

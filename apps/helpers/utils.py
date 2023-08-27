@@ -128,3 +128,12 @@ def max_high_and_low(df):
 
 def refactor_list_of_float(list, round_number=2):
   return [round(i, round_number) for i in list]
+
+def find_highest_and_lower_hour(df):
+  """Tìm gía cao nhất và thấp nhất rồi trả về giờ có giá cao nhất và thấp nhất đó"""
+
+  highest, lowest = max_high_and_low(df)
+  highest_hour = df[df['high'] == highest].hour
+  lowest_hour = df[df['low'] == lowest].hour
+  
+  return highest_hour.iloc[-1], lowest_hour.iloc[-1], highest, lowest

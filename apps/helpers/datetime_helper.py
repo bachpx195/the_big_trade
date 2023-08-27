@@ -23,3 +23,6 @@ def to_str(date):
 
 def day_week_name(date_str):
   return to_date(date_str).strftime("%A")
+
+def date_with_name(date_str):
+  return to_date(date_str).strftime("%Y-%m-%d %A")
