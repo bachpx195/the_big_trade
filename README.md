@@ -7,5 +7,5 @@ pip install .
 
 ## Run
 ```shellscript
-streamlit run main.py 
+streamlit run main.py --logger.level=debug
 ```

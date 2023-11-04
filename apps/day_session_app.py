@@ -31,7 +31,7 @@ class DaySessionApp(HydraHeadApp):
         hour_prices_by_date = hour_prices[hour_prices['day_with_binance'] == date]
         show_date = day_prices[(day_prices['day'] == date) | (day_prices['day'] == previous_day(date)) | (day_prices['day'] == previous_day(previous_day(date)))]
 
-        c1, c2,c3,c4,c5 = st.columns([16,10,8,14,20])
+        c1,c2,c3,c4,c5 = st.columns([16,10,8,14,20])
 
         st.plotly_chart(draw_candlestick_with_highest_and_lowest_zone(hour_prices_by_date), use_container_width=True, config=CONFIG)
         with c1:
