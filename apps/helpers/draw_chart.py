@@ -375,3 +375,18 @@ def draw_inside_and_outside_week_bar_chart(n_groups, max_in_week, min_in_week):
   plt.tight_layout()
 
   return plt
+
+def draw_day_overview(df, day_df):
+  tickvals =[k*0.5 for k in range(len(df))]
+  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+
+  fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+                  open=df['open'], high=df['high'],
+                  low=df['low'], close=df['close'])])
+  
+  fig.add_hline(y=day_df['open'].values[0], line_width=1, line_color="yellow")
+  fig.add_hline(y=day_df['low'].values[0], line_width=1, line_color="pink")
+  fig.add_hline(y=day_df['high'].values[0], line_width=1, line_color="green")
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+
+  return fig

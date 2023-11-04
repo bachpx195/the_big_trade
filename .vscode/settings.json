@@ -1,4 +1,10 @@
 {
     "jupyter.jupyterServerType": "local",
-    "emmet.includeLanguages": {"ipynb": "py"}
+    "emmet.includeLanguages": {
+        "ipynb": "py"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none"
 }
