@@ -390,3 +390,36 @@ def draw_day_overview(df, day_df):
   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
   return fig
+
+
+# def draw_day_overview(df, day_df):
+#   from plotly.subplots import make_subplots
+
+#   tickvals =[k*0.5 for k in range(len(df))]
+#   ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+
+#   candlesticks = go.Candlestick(x=tickvals,
+#                   open=df['open'], high=df['high'],
+#                   low=df['low'], close=df['close'])
+
+#   volume_bars = go.Bar(
+#       x=tickvals,
+#       y=df['volumn'],
+#       showlegend=False,
+#       marker={
+#           "color": "rgba(128,128,128,0.5)",
+#       }
+#   )
+
+#   fig = go.Figure(data=[])
+  
+#   fig = make_subplots(specs=[[{"secondary_y": True}]])
+#   fig.add_trace(candlesticks, secondary_y=True)
+#   fig.add_trace(volume_bars, secondary_y=False)
+  
+#   fig.add_hline(y=day_df['open'].values[0], line_width=1, line_color="yellow")
+#   fig.add_hline(y=day_df['low'].values[0], line_width=1, line_color="pink")
+#   fig.add_hline(y=day_df['high'].values[0], line_width=1, line_color="green")
+#   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+
+#   return fig

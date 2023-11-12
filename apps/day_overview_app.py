@@ -21,14 +21,12 @@ class DayOverviewApp(HydraHeadApp):
     hour_prices = load_hour_data(alt_name, day*24)
     day_prices = load_data(alt_name, 'day', day)
 
-    # if st.button("Show raw data"):
-    #   st.dataframe(hour_prices)
+    if st.button("Show raw data"):
+      st.dataframe(hour_prices)
 
     list_day = day_prices.day.to_list()
 
     for date in list_day:
-        
-
         hour_prices_by_date = hour_prices[hour_prices['day_with_binance'] == date]
 
         # Nếu không đủ giờ thì ko hiển thị
