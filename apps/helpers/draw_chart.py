@@ -11,7 +11,8 @@ def draw_candlestick(df):
     open=df['open'].tolist(),
     high=df['high'].tolist(),
     low=df['low'].tolist(),
-    close=df['close'].tolist()
+    close=df['close'].tolist(),
+    hovertext=df['hour_return']
   )
 
   fig = go.Figure()
@@ -380,13 +381,17 @@ def draw_day_overview(df, day_df):
   tickvals =[k*0.5 for k in range(len(df))]
   ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
 
-  fig = go.Figure(data=[go.Candlestick(x=tickvals, #df['data_minu'],
+  fig = go.Figure(data=[go.Candlestick(x=tickvals,
                   open=df['open'], high=df['high'],
-                  low=df['low'], close=df['close'])])
+                  low=df['low'], close=df['close'], hovertext=df['hour_return'])])
   
   fig.add_hline(y=day_df['open'].values[0], line_width=1, line_color="yellow")
   fig.add_hline(y=day_df['low'].values[0], line_width=1, line_color="pink")
   fig.add_hline(y=day_df['high'].values[0], line_width=1, line_color="green")
+  fig.add_hline(y=day_df['close'].values[0], line_width=1, line_color="red")
+  fig.add_vline(x=0.3, line_width=2, line_dash="dash", line_color="green")
+  fig.add_vline(x=4.2, line_width=2, line_dash="dash", line_color="green")
+  fig.add_vline(x=8.8, line_width=2, line_dash="dash", line_color="green")
   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
   return fig
