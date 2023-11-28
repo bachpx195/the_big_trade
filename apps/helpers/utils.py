@@ -5,7 +5,7 @@ import pandas as pd
 # ((col2 - col1) / col1) * 100
 
 def percentage_change(df, col1_index, col2_index):
-  return df.apply(lambda row: (row.iloc[col2_index]-row.iloc[col1_index])/row.iloc[col1_index]*100, axis=1)
+  return df.apply(lambda row: calc_return(row, col1_index, col2_index), axis=1)
 
 def candlestick_type(df):
   return df.apply(lambda row: 'down' if row.iloc[OPEN_INDEX] > row.iloc[CLOSE_INDEX] else 'up', axis=1)
@@ -137,3 +137,9 @@ def find_highest_and_lower_hour(df):
   lowest_hour = df[df['low'] == lowest].hour
   
   return highest_hour.iloc[-1], lowest_hour.iloc[-1], highest, lowest
+
+
+def calc_return(row, col1_index, col2_index):
+  if not row.iloc[col1_index] or row.iloc[col1_index] == 0:
+    return 0
+  return (row.iloc[col2_index]-row.iloc[col1_index])/row.iloc[col1_index]*100

@@ -82,5 +82,8 @@ def load_month_data(merchandise_rate_name):
   prices = add_month_column(prices)
   prices = add_year_column(prices)
   prices = add_month_return_column(prices)
+  prices = add_month_hl_return_column(prices)
+  prices = add_month_ho_return_column(prices)
+  prices = add_month_ol_return_column(prices)
 
   return prices

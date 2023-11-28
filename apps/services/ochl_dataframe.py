@@ -22,6 +22,18 @@ def add_month_return_column(df):
   df['month_return'] = percentage_change(df, OPEN_INDEX, CLOSE_INDEX)
   return df
 
+def add_month_hl_return_column(df):
+  df['month_return_hl'] = percentage_change(df, LOW_INDEX, HIGH_INDEX)
+  return df
+
+def add_month_ol_return_column(df):
+  df['month_return_ol'] = percentage_change(df, LOW_INDEX, OPEN_INDEX)
+  return df
+
+def add_month_ho_return_column(df):
+  df['month_return_ho'] = percentage_change(df, HIGH_INDEX, OPEN_INDEX)
+  return df
+
 def add_day_volatility_column(df):
   df['day_volatility_return'] = percentage_change(df, LOW_INDEX, HIGH_INDEX)
   return df

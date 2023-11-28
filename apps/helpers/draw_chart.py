@@ -385,46 +385,22 @@ def draw_day_overview(df, day_df):
                   open=df['open'], high=df['high'],
                   low=df['low'], close=df['close'], hovertext=df['hour_return'])])
   
-  fig.add_hline(y=day_df['open'].values[0], line_width=1, line_color="yellow")
+  return_hl = (day_df['high'].values[0] - day_df['low'].values[0])*100/day_df['low'].values[0]
+  
+  if return_hl >= 4:
+    height = 500
+  elif return_hl > 1 and return_hl < 4:
+    height = 400
+  else:
+    height = 300
+
   fig.add_hline(y=day_df['low'].values[0], line_width=1, line_color="pink")
   fig.add_hline(y=day_df['high'].values[0], line_width=1, line_color="green")
   fig.add_hline(y=day_df['close'].values[0], line_width=1, line_color="red")
   fig.add_vline(x=0.3, line_width=2, line_dash="dash", line_color="green")
   fig.add_vline(x=4.2, line_width=2, line_dash="dash", line_color="green")
   fig.add_vline(x=8.8, line_width=2, line_dash="dash", line_color="green")
-  fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+  fig.update_layout(xaxis_rangeslider_visible=False, height=height, xaxis_tickvals=tickvals,
+                    xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
 
   return fig
-
-
-# def draw_day_overview(df, day_df):
-#   from plotly.subplots import make_subplots
-
-#   tickvals =[k*0.5 for k in range(len(df))]
-#   ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
-
-#   candlesticks = go.Candlestick(x=tickvals,
-#                   open=df['open'], high=df['high'],
-#                   low=df['low'], close=df['close'])
-
-#   volume_bars = go.Bar(
-#       x=tickvals,
-#       y=df['volumn'],
-#       showlegend=False,
-#       marker={
-#           "color": "rgba(128,128,128,0.5)",
-#       }
-#   )
-
-#   fig = go.Figure(data=[])
-  
-#   fig = make_subplots(specs=[[{"secondary_y": True}]])
-#   fig.add_trace(candlesticks, secondary_y=True)
-#   fig.add_trace(volume_bars, secondary_y=False)
-  
-#   fig.add_hline(y=day_df['open'].values[0], line_width=1, line_color="yellow")
-#   fig.add_hline(y=day_df['low'].values[0], line_width=1, line_color="pink")
-#   fig.add_hline(y=day_df['high'].values[0], line_width=1, line_color="green")
-#   fig.update_layout(xaxis_rangeslider_visible=False, xaxis_tickvals=tickvals, xaxis_ticktext=ticktext, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
-
-#   return fig

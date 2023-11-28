@@ -15,7 +15,7 @@ class DayOverviewApp(HydraHeadApp):
 
   def run(self):
     alt_name = 'LTCUSDT'
-    btc_name = 'LTCBTC'
+    btc_name = 'BTCUSDT'
 
     day = st.number_input('Nhập số lượng dữ liệu (đơn vị: ngày)', value=50)
 
@@ -27,9 +27,13 @@ class DayOverviewApp(HydraHeadApp):
 
     if st.button("Show raw data"):
       st.dataframe(hour_prices_alt)
-      st.dataframe(hour_prices_btc)
+      # st.dataframe(hour_prices_btc)
 
     list_day = day_prices_alt.day.to_list()
+
+    # list_day = ["2023-11-16", "2023-11-12",
+    #             "2023-11-07", "2023-11-02", "2023-10-11"]
+    # st.write(list_day)
 
     for date in list_day:
         hour_prices_alt_by_date = hour_prices_alt[hour_prices_alt['day_with_binance'] == date]
@@ -72,14 +76,13 @@ class DayOverviewApp(HydraHeadApp):
         hour_prices_btc_by_date.sort_index(inplace=True)
 
         with c1:
-          # st.write(alt_name)
           st.plotly_chart(draw_candlestick(show_date_alt), use_container_width=True, config=CONFIG)
         with c2:
           st.plotly_chart(draw_day_overview(hour_prices_alt_by_date, day_df_alt), use_container_width=True, config=CONFIG)
 
-        # with c1:
-        #   st.write(btc_name)
-        #   st.plotly_chart(draw_candlestick(show_date_btc),
-        #                   use_container_width=True, config=CONFIG)
-        # with c2:
-        #   st.plotly_chart(draw_day_overview(hour_prices_btc_by_date, day_df_btc), use_container_width=True, config=CONFIG)
+        with c1:
+          st.write(btc_name)
+          st.plotly_chart(draw_candlestick(show_date_btc),
+                          use_container_width=True, config=CONFIG)
+        with c2:
+          st.plotly_chart(draw_day_overview(hour_prices_btc_by_date, day_df_btc), use_container_width=True, config=CONFIG)
