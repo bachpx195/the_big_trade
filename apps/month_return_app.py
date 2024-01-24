@@ -5,7 +5,7 @@ from hydralit_custom import HydraHeadApp
 import numpy as np
 from apps.helpers.constants import LIST_MERCHANDISE_RATE, CONFIG
 from apps.concern.load_data import load_month_data
-from apps.helpers.draw_chart import draw_candlestick, draw_histogram
+from apps.helpers.draw_chart import draw_candlestick, draw_histogram, draw_candlestick_without_hovertext
 from apps.helpers.datetime_helper import previous_month
 
 class MonthReturnApp(HydraHeadApp):
@@ -43,7 +43,7 @@ class MonthReturnApp(HydraHeadApp):
             previous_month(month_observe))))) & (prices['year'] == year))
       ]
       if not show_month.empty:
-        st.plotly_chart(draw_candlestick(show_month),
+        st.plotly_chart(draw_candlestick_without_hovertext(show_month),
                         use_container_width=True, config=CONFIG)
 
   def run(self):

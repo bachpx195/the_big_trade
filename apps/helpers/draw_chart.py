@@ -18,9 +18,29 @@ def draw_candlestick(df):
   fig = go.Figure()
   fig.add_trace(candlestick_data)
 
-  fig.update_layout(xaxis_rangeslider_visible=False, xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis=dict(
+      showgrid=False), yaxis=dict(showgrid=False))
 
   return fig
+
+
+def draw_candlestick_without_hovertext(df):
+  candlestick_data = go.Candlestick(
+      x=df.index.tolist(),
+      open=df['open'].tolist(),
+      high=df['high'].tolist(),
+      low=df['low'].tolist(),
+      close=df['close'].tolist()
+  )
+
+  fig = go.Figure()
+  fig.add_trace(candlestick_data)
+
+  fig.update_layout(xaxis_rangeslider_visible=False, xaxis=dict(
+      showgrid=False), yaxis=dict(showgrid=False))
+
+  return fig
+
 
 # format date = 2022-07-22
 def draw_candlestick_by_day(df, date):
@@ -379,7 +399,8 @@ def draw_inside_and_outside_week_bar_chart(n_groups, max_in_week, min_in_week):
 
 def draw_day_overview(df, day_df):
   tickvals =[k*0.5 for k in range(len(df))]
-  ticktext=list((date.to_pydatetime().strftime("%Y-%m-%d %Hh") for date in df.index))
+  ticktext = list(
+      (f"{date.to_pydatetime().strftime('%Hh')} {round(df.loc[date].hour_return, 2)}" for date in df.index))
 
   fig = go.Figure(data=[go.Candlestick(x=tickvals,
                   open=df['open'], high=df['high'],

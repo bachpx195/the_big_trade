@@ -4,10 +4,11 @@ from myenv.models.merchandise_rate import MerchandiseRate
 from apps.services.ochl_dataframe import *
 
 @st.cache_data
-def load_candlestick(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
+def load_candlestick(merchandise_rate_name, interval, limit, start_date = None, end_date = None, join_analytic_table = None, list_day=None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-  candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
+  candlestick = Candlestick(merchandise_rate_id, interval=interval, limit=limit, sort="DESC",
+                            start_date=start_date, end_date=end_date, join_analytic_table=join_analytic_table, list_day=list_day)
 
   prices = candlestick.to_df()
   prices = add_return_column(prices)
@@ -16,16 +17,17 @@ def load_candlestick(merchandise_rate_name, interval, limit, start_date = None, 
   return prices
 
 @st.cache_data
-def load_data(merchandise_rate_name, interval, limit, start_date = None, end_date = None):
-  prices = load_candlestick(merchandise_rate_name, interval, limit, start_date, end_date)
+def load_data(merchandise_rate_name, interval, limit, start_date=None, end_date=None, join_analytic_table=None, list_day=None):
+  prices = load_candlestick(merchandise_rate_name, interval,
+                            limit, start_date, end_date, join_analytic_table, list_day)
 
   return prices
 
 @st.cache_data
-def load_hour_data(merchandise_rate_name, limit, start_date = None, end_date = None):
+def load_hour_data(merchandise_rate_name, limit, start_date = None, end_date = None, list_day = None):
   merchandise_rate = MerchandiseRate()
   merchandise_rate_id = merchandise_rate.find_by_slug(merchandise_rate_name)
-  candlestick = Candlestick(merchandise_rate_id, 'hour', limit=limit, sort="DESC", start_date=start_date, end_date=end_date)
+  candlestick = Candlestick(merchandise_rate_id, 'hour', limit=limit, sort="DESC", start_date=start_date, end_date=end_date, list_day=list_day)
 
   prices = candlestick.to_df()
   prices = add_return_column(prices)
